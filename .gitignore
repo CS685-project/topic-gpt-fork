@@ -1,2 +1,7 @@
+
+# Annoying cache files
+*/__pycache__
+
 # Local developer-specific files
 activate-venv.bat
+.env

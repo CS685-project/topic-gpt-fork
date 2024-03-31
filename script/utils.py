@@ -1,3 +1,4 @@
+from sklearn import metrics
 from openai import OpenAI
 import os
 import time
@@ -13,11 +14,20 @@ import requests
 from tenacity import retry, wait_random_exponential, stop_after_attempt
 from openai import OpenAI
 
-client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-from sklearn import metrics
+from pathlib import Path
+from dotenv import load_dotenv
+
+# New code needed to get API keys from env across MacOS/Windows
+env_path = Path('..') / '.env'
+load_dotenv(dotenv_path=env_path, override=True)
 
 # Add perplexity API key to the environment variable & load it here.
-PERPLEXITY_API_KEY = ""
+PERPLEXITY_API_KEY = os.environ["PERPLEXITY_API_KEY"]
+
+# TODO:
+client_openai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+client_pplx = OpenAI(api_key=PERPLEXITY_API_KEY,
+                     base_url="https://api.perplexity.ai")
 
 
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
@@ -32,7 +42,7 @@ def api_call(prompt, deployment_name, temperature, max_tokens, top_p):
     """
     time.sleep(5)  # Change to avoid rate limit
     if deployment_name in ["gpt-35-turbo", "gpt-4", "gpt-3.5-turbo"]:
-        response = client.chat.completions.create(
+        response = client_openai.chat.completions.create(
             model=deployment_name,
             temperature=float(temperature),
             max_tokens=int(max_tokens),
@@ -48,6 +58,20 @@ def api_call(prompt, deployment_name, temperature, max_tokens, top_p):
         "codellama-34b-instruct",
         "mistral-7b-instruct",
     ]:
+        # Simplified request to perplexity API
+        response = client_pplx.chat.completions.create(
+            model=deployment_name,
+            temperature=float(temperature),
+            max_tokens=int(max_tokens),
+            top_p=float(top_p),
+            messages=[
+                {"role": "system", "content": ""},
+                {"role": "user", "content": prompt},
+            ],
+        )
+        return response.choices[0].message.content
+
+        # TODO: remove deprecated code below IF SOLUTION ABOVE WORKS PERFECTLY
         payload = {
             "model": deployment_name,
             "temperature": float(temperature),
@@ -59,6 +83,7 @@ def api_call(prompt, deployment_name, temperature, max_tokens, top_p):
                 {"role": "user", "content": prompt},
             ],
         }
+        print(payload)
         headers = {
             "accept": "application/json",
             "content-type": "application/json",
@@ -67,6 +92,7 @@ def api_call(prompt, deployment_name, temperature, max_tokens, top_p):
         response = requests.post(
             "https://api.perplexity.ai/chat/completions", json=payload, headers=headers
         )
+        print("Perplexity status code: ", response.status_code)
         if response.status_code != 200:
             print(response.status_code)
             print(response.text)
@@ -80,7 +106,7 @@ def get_ada_embedding(text, model="text-embedding-ada-002"):
     """
     Get text embedding from openai API
     """
-    return client.embeddings.create(input=[text], engine=model)["data"][0]["embedding"]
+    return client_openai.embeddings.create(input=[text], engine=model)["data"][0]["embedding"]
 
 
 def num_tokens_from_messages(messages, model):
