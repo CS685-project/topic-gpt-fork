@@ -9,3 +9,7 @@ sentence_transformers==2.2.2
 tenacity==8.2.3
 tiktoken==0.5.1
 tqdm==4.66.1
+
+# Fork imports
+python-dotenv
+ipykernel
