@@ -24,52 +24,81 @@ load_dotenv(dotenv_path=env_path, override=True)
 # Load API keys from .env file
 PERPLEXITY_API_KEY = os.environ["PERPLEXITY_API_KEY"]
 TOGETHER_API_KEY = os.environ["TOGETHER_API_KEY"]
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 # Initialize OpenAI clients (used by all major LLM APIs!)
-client_openai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+client_openai = OpenAI(api_key=OPENAI_API_KEY)
 client_pplx = OpenAI(api_key=PERPLEXITY_API_KEY, base_url="https://api.perplexity.ai")
 client_together = OpenAI(api_key=TOGETHER_API_KEY, base_url='https://api.together.xyz/v1')
 
 
+#Dictionary for together.ai models
+together_models = {
+    "llama-2-70b-chat": "codellama/CodeLlama-70b-Instruct-hf",
+    "codellama-34b-instruct": "codellama/CodeLlama-34b-Instruct-hf",
+    "mistral-7b-instruct": "mistralai/Mistral-7B-Instruct-v0.1"
+}
+
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
-def api_call(prompt, deployment_name, temperature, max_tokens, top_p):
+def api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p):
     """
     Call API (OpenAI, Azure, Perplexity) and return response
     - prompt: prompt template
     - deployment_name: name of the deployment to use (e.g. gpt-4, gpt-3.5-turbo, etc.)
+    - provider: provider to use for API call ('openai', 'perplexity.ai', 'together.ai')
     - temperature: temperature parameter
     - max_tokens: max tokens parameter
     - top_p: top p parameter
     """
     time.sleep(5)  # Change to avoid rate limit
-    if deployment_name in ["gpt-35-turbo", "gpt-4", "gpt-3.5-turbo"]:
-        response = client_openai.chat.completions.create(
-            model=deployment_name,
-            temperature=float(temperature),
-            max_tokens=int(max_tokens),
-            top_p=float(top_p),
-            messages=[
-                {"role": "system", "content": ""},
-                {"role": "user", "content": prompt},
-            ],
-        )
-        return response.choices[0].message.content
-    elif deployment_name in [
-        "llama-2-70b-chat",
-        "codellama-34b-instruct",
-        "mistral-7b-instruct",
-    ]:
-        # Simplified request to perplexity API
-        response = client_pplx.chat.completions.create(
-            model=deployment_name,
-            temperature=float(temperature),
-            max_tokens=int(max_tokens),
-            top_p=float(top_p),
-            messages=[
-                {"role": "system", "content": ""},
-                {"role": "user", "content": prompt},
-            ],
-        )
+    if provider == "openai":
+        if deployment_name in ["gpt-35-turbo", "gpt-4", "gpt-3.5-turbo"]:
+            response = client_openai.chat.completions.create(
+                model=deployment_name,
+                temperature=float(temperature),
+                max_tokens=int(max_tokens),
+                top_p=float(top_p),
+                messages=[
+                    {"role": "system", "content": ""},
+                    {"role": "user", "content": prompt},
+                ],
+            )
+            return response.choices[0].message.content
+    elif provider == "perplexity.ai":
+        if deployment_name in [
+            "llama-2-70b-chat",
+            "codellama-34b-instruct",
+            "mistral-7b-instruct",
+        ]:
+            # Simplified request to perplexity API
+            response = client_pplx.chat.completions.create(
+                model=deployment_name,
+                temperature=float(temperature),
+                max_tokens=int(max_tokens),
+                top_p=float(top_p),
+                messages=[
+                    {"role": "system", "content": ""},
+                    {"role": "user", "content": prompt},
+                ],
+            )
+            return response.choices[0].message.content
+    elif provider == "together.ai":
+        if deployment_name in [
+            "llama-2-70b-chat",
+            "codellama-34b-instruct",
+            "mistral-7b-instruct",
+        ]:
+            # Simplified request to together API
+            response = client_together.chat.completions.create(
+                model=together_models[deployment_name],
+                temperature=float(temperature),
+                max_tokens=int(max_tokens),
+                top_p=float(top_p),
+                messages=[
+                    {"role": "system", "content": ""},
+                    {"role": "user", "content": prompt},
+                ],
+            )
         return response.choices[0].message.content
 
         # TODO: remove deprecated code below IF SOLUTION ABOVE WORKS PERFECTLY
