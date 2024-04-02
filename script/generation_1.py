@@ -13,6 +13,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 def prompt_formatting(
     generation_prompt,
     deployment_name,
+    provider,
     doc,
     seed_file,
     topics_list,
@@ -25,6 +26,7 @@ def prompt_formatting(
     Handle cases where prompt is too long
     - generation_prompt: Prompt for topic generation
     - deployment_name: Model to run generation with ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct')
+    - provider: Provider to use for API call ('openai', 'perplexity.ai', 'together.ai')
     - doc: Document to include in prompt
     - seed_file: File to read seed topics from
     - topics_list: List of topics generated from previous iteration
@@ -89,6 +91,7 @@ def generate_topics(
     docs,
     seed_file,
     deployment_name,
+    provider,
     generation_prompt,
     temperature,
     max_tokens,
@@ -103,6 +106,7 @@ def generate_topics(
     - docs: List of documents to generate topics from
     - seed_file: File to read seed topics from
     - deployment_name: Model to run generation with ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)
+    - provider: Provider to use for API call ('openai', 'perplexity.ai', 'together.ai')
     - generation_prompt: Prompt to generate topics with
     - verbose: Whether to print out results
     - early_stop: Threshold for topic drought (Modify if necessary)
@@ -116,6 +120,7 @@ def generate_topics(
         prompt = prompt_formatting(
             generation_prompt,
             deployment_name,
+            provider,
             doc,
             seed_file,
             topics_list,
@@ -123,7 +128,7 @@ def generate_topics(
             verbose,
         )
         try:
-            response = api_call(prompt, deployment_name, temperature, max_tokens, top_p)
+            response = api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p)
             topics = response.split("\n")
             for t in topics:
                 t = t.strip()
@@ -214,14 +219,21 @@ def main():
     parser.add_argument(
         "--verbose", type=bool, default=False, help="whether to print out results"
     )
+    parser.add_argument(
+        "--provider",
+        type=str,
+        default="openai",
+        help="provider to use for API call ('openai', 'perplexity.ai', 'together.ai')",
+    )
     args = parser.parse_args()
 
     # Model configuration ----
-    deployment_name, max_tokens, temperature, top_p = (
+    deployment_name, max_tokens, temperature, top_p, provider = (
         args.deployment_name,
         args.max_tokens,
         args.temperature,
         args.top_p,
+        args.provider,
     )
     context = 4096
     if deployment_name == "gpt-35-turbo":
@@ -244,6 +256,7 @@ def main():
         docs,
         args.seed_file,
         deployment_name,
+        provider,
         generation_prompt,
         temperature,
         max_tokens,
