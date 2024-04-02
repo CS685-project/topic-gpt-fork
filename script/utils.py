@@ -21,13 +21,14 @@ from dotenv import load_dotenv
 env_path = Path('..') / '.env'
 load_dotenv(dotenv_path=env_path, override=True)
 
-# Add perplexity API key to the environment variable & load it here.
+# Load API keys from .env file
 PERPLEXITY_API_KEY = os.environ["PERPLEXITY_API_KEY"]
+TOGETHER_API_KEY = os.environ["TOGETHER_API_KEY"]
 
-# TODO:
+# Initialize OpenAI clients (used by all major LLM APIs!)
 client_openai = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
-client_pplx = OpenAI(api_key=PERPLEXITY_API_KEY,
-                     base_url="https://api.perplexity.ai")
+client_pplx = OpenAI(api_key=PERPLEXITY_API_KEY, base_url="https://api.perplexity.ai")
+client_together = OpenAI(api_key=TOGETHER_API_KEY, base_url='https://api.together.xyz/v1')
 
 
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
@@ -83,7 +84,7 @@ def api_call(prompt, deployment_name, temperature, max_tokens, top_p):
                 {"role": "user", "content": prompt},
             ],
         }
-        print(payload)
+
         headers = {
             "accept": "application/json",
             "content-type": "application/json",
