@@ -49,6 +49,7 @@ def merge_topics(
     topics_node,
     prompt,
     deployment_name,
+    provider,
     temperature,
     max_tokens,
     top_p,
@@ -60,6 +61,7 @@ def merge_topics(
     - topics_node: List of all nodes in topic tree
     - prompt: Prompt to be used for refinement
     - deployment_name: Model name
+    - provider: Provider to use for API call ('openai', 'perplexity.ai', 'together.ai')
     - temperature: Temperature
     - max_tokens: Max tokens to generate
     - top_p: Top-p
@@ -98,7 +100,7 @@ def merge_topics(
         try:
             input_len = num_tokens_from_messages(refiner_input, "gpt-4")
             response = api_call(
-                refiner_prompt, deployment_name, temperature, max_tokens, top_p
+                refiner_prompt, deployment_name, provider, temperature, max_tokens, top_p
             )
             responses.append(response)
             merges = response.split("\n")
@@ -252,15 +254,22 @@ def main():
         default="refiner",
         help="Is this the second time you run refinement on the topics?",
     )
+    parser.add_argument(
+        "--provider",
+        type=str,
+        default="openai",
+        help="provider ('openai', 'perplexity.ai', 'together.ai)",
+    )
 
     args = parser.parse_args()
 
     # Model configuration ----
-    deployment_name, max_tokens, temperature, top_p = (
+    deployment_name, max_tokens, temperature, top_p, provider = (
         args.deployment_name,
         args.max_tokens,
         args.temperature,
         args.top_p,
+        args.provider,
     )
     if deployment_name == "gpt-35-turbo":
         deployment_name = "gpt-3.5-turbo"
@@ -275,6 +284,7 @@ def main():
         topics_node,
         refinement_prompt,
         deployment_name,
+        provider,
         temperature,
         max_tokens,
         top_p,
