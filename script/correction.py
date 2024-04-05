@@ -77,6 +77,7 @@ def correct_topics(
     errors,
     correction_prompt,
     deployment_name,
+    provider,
     context_len,
     temperature,
     top_p,
@@ -91,6 +92,7 @@ def correct_topics(
     - errors: List of indices of documents with errors
     - correction_prompt: Prompt to assign topics with
     - deployment_name: Model to run correction with ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)
+    - provider: Provider to use for API call ('openai', 'perplexity.ai', 'together.ai')
     - context_len: Max length of prompt
     - temperature: Temperature for generation
     - top_p: Top-p for generation
@@ -146,7 +148,7 @@ def correct_topics(
         try:
             msg = f"Previously, you assigned to this document to the following topics: {df.responses.tolist()[i]}.This time, you have to assign the document to a specific topic in the given hierarchy."
             prompt = correction_prompt.format(Document=doc, tree=seed_str, Message=msg)
-            result = api_call(prompt, deployment_name, temperature, max_tokens, top_p)
+            result = api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p)
             if verbose:
                 print(f"Document {i+1}: {result}")
         except Exception as e:
@@ -197,15 +199,22 @@ def main():
     parser.add_argument(
         "--verbose", type=bool, default=False, help="whether to print out results"
     )
+    parser.add_argument(
+        "--provider",
+        type=str,
+        default="openai",
+        help="provider to use for API call ('openai', 'perplexity.ai', 'together.ai')",
+    )
 
     args = parser.parse_args()
 
     # Model configuration ----
-    deployment_name, max_tokens, temperature, top_p = (
+    deployment_name, max_tokens, temperature, top_p, provider = (
         args.deployment_name,
         args.max_tokens,
         args.temperature,
         args.top_p,
+        args.provider,
     )
     context = 4096
     if deployment_name == "gpt-35-turbo":
@@ -230,6 +239,7 @@ def main():
         error + hallucinated,
         correction_prompt,
         deployment_name,
+        provider,
         context_len,
         temperature,
         top_p,

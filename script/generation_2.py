@@ -40,6 +40,7 @@ def generate_topics(
     gen_prompt,
     context_len,
     deployment_name,
+    provider,
     max_tokens,
     temperature,
     top_p,
@@ -54,6 +55,7 @@ def generate_topics(
     - gen_prompt: generation prompt
     - context_len: length of the context
     - deployment_name: model to run topic generation with ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)
+    - provider: Provider to use for API call ('openai', 'perplexity.ai', 'together.ai')
     - max_tokens: max tokens to generate
     - temperature: temperature for generation
     - top_p: top-p for generation
@@ -107,7 +109,7 @@ def generate_topics(
 
                 try:
                     result = api_call(
-                        prompt, deployment_name, temperature, max_tokens, top_p
+                        prompt, deployment_name, provider, temperature, max_tokens, top_p
                     )
                     if verbose:
                         print("Subtopics:", result)
@@ -230,14 +232,21 @@ def main():
     parser.add_argument(
         "--verbose", type=bool, default=False, help="whether to print out results"
     )
+    parser.add_argument(
+        "--provider",
+        type=str,
+        default="openai",
+        help="provider to use for API call ('openai', 'perplexity.ai', 'together.ai')",
+    )
     args = parser.parse_args()
 
     # Model configuration ----
-    deployment_name, max_tokens, temperature, top_p = (
+    deployment_name, max_tokens, temperature, top_p, provider = (
         args.deployment_name,
         args.max_tokens,
         args.temperature,
         args.top_p,
+        args.provider,
     )
     context = 4096
     if deployment_name == "gpt-35-turbo":
@@ -267,6 +276,7 @@ def main():
         generation_prompt,
         context_len,
         deployment_name,
+        provider,
         max_tokens,
         temperature,
         top_p,
