@@ -32,12 +32,13 @@ client_pplx = OpenAI(api_key=PERPLEXITY_API_KEY, base_url="https://api.perplexit
 client_together = OpenAI(api_key=TOGETHER_API_KEY, base_url='https://api.together.xyz/v1')
 
 
-#Dictionary for together.ai models
+# Dictionary for together.ai models
 together_models = {
     "llama-2-70b-chat": "codellama/CodeLlama-70b-Instruct-hf",
     "codellama-34b-instruct": "codellama/CodeLlama-34b-Instruct-hf",
     "mistral-7b-instruct": "mistralai/Mistral-7B-Instruct-v0.1"
 }
+
 
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
 def api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p):
@@ -69,6 +70,7 @@ def api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p):
             "llama-2-70b-chat",
             "codellama-34b-instruct",
             "mistral-7b-instruct",
+            "mixtral-8x7b-instruct",
         ]:
             # Simplified request to perplexity API
             response = client_pplx.chat.completions.create(

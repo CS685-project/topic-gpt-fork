@@ -1,0 +1,35 @@
+You will receive a document and its proposed topic from a topic hierarchy. Your task is to evaluate whether the topic categorizes the document well. A good topic must be be short and generalizable.
+
+[Examples]
+
+Example 1 (accept topic):
+[Document]
+A smart wearable device for continuous monitoring of blood glucose levels in diabetic patients. This innovative wearable device integrates biosensors and wireless technology to provide real-time monitoring of blood glucose levels in diabetic individuals. The device is worn discreetly on the body and continuously measures glucose levels from interstitial fluid, eliminating the need for frequent finger pricks. The data is transmitted wirelessly to a smartphone app, allowing users to track their glucose levels and receive timely alerts for hypo- or hyperglycemic events. With its non-invasive monitoring and user-friendly interface, this device improves diabetes management and enhances quality of life for patients.
+[Topic]
+[1] Healthcare: Technological improvement or innovation with applications in healthcare.
+[Your response]
+[1] Healthcare: Technological improvement or innovation with applications in healthcare.
+
+Example 2 (refine topic):
+[Document]
+Prevention of Unsafe Licensing Act - Amends the REAL ID Act of 2005 to prohibit a state from issuing a driver's license or identification document to a person unless the state has complied with certain citizenship or lawful immigration status verification requirements.
+[Topic]
+[1] Security Legislation: A law requiring additional checks before identification documents can be issued. 
+[Your response]
+[1] Legislation: Law code, proposals, and related documents.
+
+
+[Instructions]
+Step 1: Evaluate whether the given topic pertains to the document:
+- The topic must have a level number, a short general label, and a topic description. 
+- The topic description must be SHORT and GENERALIZABLE. It must NOT contain document-specific terms and concepts. It must describe the topic label, NOT the document.
+- The topic must be broad enough to accommodate future subtopics.
+Step 2: Perform ONE of the following operations:
+1. Return the given topic if generalizes well. DO NOT EXPLAIN YOUR REASONING.
+2. Return a refined topic if the given topic does not meet the criteria from Step 1. DO NOT EXPLAIN YOUR REASONING.
+
+[Document]
+{Document}
+[Topic]
+{Topic}
+[Your response]

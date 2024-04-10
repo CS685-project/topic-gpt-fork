@@ -84,6 +84,109 @@ def prompt_formatting(
     return prompt
 
 
+def self_ref_prompt_formatting(
+    self_ref_prompt,
+    deployment_name,
+    provider,
+    doc,
+    topic,
+    topics_list,
+    context_len,
+    verbose,
+    max_top_len=100,
+):
+    """
+    Format prompt to include document and seed topics
+    Handle cases where prompt is too long
+    - generation_prompt: Prompt for topic generation
+    - deployment_name: Model to run generation with ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct')
+    - provider: Provider to use for API call ('openai', 'perplexity.ai', 'together.ai')
+    - doc: Document to include in prompt
+    - seed_file: File to read seed topics from
+    - topics_list: List of topics generated from previous iteration
+    - context_len: Max context length for model (deployment_name)
+    - verbose: Whether to print out results
+    - max_top_len: Max length of topics to include in prompt (Modify if necessary)
+    """
+    sbert = SentenceTransformer("all-MiniLM-L6-v2")
+
+    # Calculate length of document, seed topics, and prompt ----
+    doc_len = num_tokens_from_messages(doc, deployment_name)
+    prompt_len = num_tokens_from_messages(self_ref_prompt, deployment_name)
+    topic_len = num_tokens_from_messages(topic, deployment_name)
+    total_len = prompt_len + doc_len + topic_len
+
+    # Handle cases where prompt is too long ----
+    if total_len > context_len:
+        # Truncate document if too long
+        if doc_len > (context_len - prompt_len - max_top_len):
+            if verbose:
+                print(f"Document is too long ({doc_len} tokens). Truncating...")
+            doc = truncating(doc, context_len - prompt_len - max_top_len)
+            prompt = self_ref_prompt.format(Document=doc, Topic=topic)
+
+        # Truncate topic list to only include topics that are most similar to document
+        # Determined by cosine similarity between topic string & document embedding
+        else:
+            if verbose:
+                print(f"Too many topics ({topic_len} tokens). Pruning...")
+            cos_sim = {}  # topic: cosine similarity w/ document
+            doc_emb = sbert.encode(doc, convert_to_tensor=True)
+            for top in topics_list:
+                top_emb = sbert.encode(top, convert_to_tensor=True)
+                cos_sim[top] = util.cos_sim(top_emb, doc_emb)
+            sim_topics = sorted(cos_sim, key=cos_sim.get, reverse=True)
+
+            max_top_len = context_len - prompt_len - doc_len
+            seed_len, seed_str = 0, ""
+            while seed_len < max_top_len and len(sim_topics) > 0:
+                new_seed = sim_topics.pop(0)
+                if (
+                    seed_len
+                    + num_tokens_from_messages(new_seed + "\n", deployment_name)
+                    > max_top_len
+                ):
+                    break
+                else:
+                    seed_str += new_seed + "\n"
+                    seed_len += num_tokens_from_messages(seed_str, deployment_name)
+            prompt = self_ref_prompt.format(Document=doc, Topic=seed_str)
+    else:
+        prompt = self_ref_prompt.format(Document=doc, Topic=topic)
+    return prompt
+
+
+def extract_topic_data(topic, topic_format, verbose):
+    topic = topic.strip()
+    groups = regex.match(topic_format, topic)
+
+    if groups is None:
+        # No topics in correct format
+        return None
+
+    lvl, name, desc = (
+        int(groups[1]),
+        groups[2].strip(),
+        groups[3].strip(),
+    )
+
+    if lvl != 1:
+        if verbose:
+            print("Lower-level topics detected. Skipping...")
+        return None
+
+    return lvl, name, desc
+
+
+def check_for_duplicates(name, topics_root, running_dups):
+    dups = [s for s in topics_root.descendants if s.name == name]
+    is_duplicate = len(dups) > 0
+    if is_duplicate:  # Update count if topic already exists
+        dups[0].count += 1
+        running_dups += 1
+    return is_duplicate, running_dups
+
+
 def generate_topics(
     topics_root,
     topics_list,
@@ -98,6 +201,7 @@ def generate_topics(
     top_p,
     verbose,
     early_stop=100,
+    self_ref_prompt=None,
 ):
     """
     Generate topics from documents using LLMs
@@ -131,37 +235,60 @@ def generate_topics(
             response = api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p)
             topics = response.split("\n")
             for t in topics:
+                topic_data = extract_topic_data(t, topic_format, verbose)
                 t = t.strip()
-                if regex.match(topic_format, t):
-                    groups = regex.match(topic_format, t)
-                    lvl, name, desc = (
-                        int(groups[1]),
-                        groups[2].strip(),
-                        groups[3].strip(),
-                    )
-                    if lvl == 1:
-                        dups = [s for s in topics_root.descendants if s.name == name]
-                        if len(dups) > 0:  # Update count if topic already exists
-                            dups[0].count += 1
-                            running_dups += 1
-                            if running_dups > early_stop:
-                                return responses, topics_list, topics_root
-                        else:  # Add new topic if topic doesn't exist
-                            new_node = Node(
-                                name=name,
-                                parent=topics_root,
-                                lvl=lvl,
-                                count=1,
-                                desc=desc,
-                            )
-                            topics_list.append(f"[{new_node.lvl}] {new_node.name}")
-                            running_dups = 0
-                    else:
-                        if verbose:
-                            print("Lower-level topics detected. Skipping...")
+
+                # Skip topic if not in correct format
+                if topic_data is None:
+                    continue
+
+                lvl, name, desc = topic_data
+                # Checks for duplicate topics and increments count if necessary
+                is_duplicate, running_dups = check_for_duplicates(name, topics_root, running_dups)
+                # Stop early if number of duplicates in a row exceeds threshold
+                if running_dups > early_stop:
+                    return responses, topics_list, topics_root
+                # Skip node generation step if topic is a duplicate
+                elif is_duplicate:
+                    continue
+
+                # Add new topic as node
+                # Apply self-refinement to generated topic if provided
+                if self_ref_prompt is not None:
+                    prompt = self_ref_prompt_formatting(self_ref_prompt, deployment_name, provider,
+                                                        doc, t, topics_list, context_len, verbose)
+
+                    ref_response = api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p)
+                    t_ref = ref_response.split("\n")[0].strip()
+                    topic_data = extract_topic_data(t_ref, topic_format, verbose)
+
+                    if topic_data is not None:
+                        lvl_ref, name_ref, desc_ref = topic_data
+                        # TODO: remove prints once no longer testing
+                        print(f"Old:{t}")
+                        print(f"New: {t_ref}")
+                        print()
+                        is_duplicate, running_dups = check_for_duplicates(name_ref, topics_root, running_dups)
+                        if running_dups > early_stop:
+                            return responses, topics_list, topics_root
+                        elif is_duplicate:
+                            continue
+                        # Overwrite with refined topic
+                        lvl, name, desc = topic_data
+
+                new_node = Node(
+                    name=name,
+                    parent=topics_root,
+                    lvl=lvl,
+                    count=1,
+                    desc=desc,
+                )
+                topics_list.append(f"[{new_node.lvl}] {new_node.name}")
+                running_dups = 0
+
             if verbose:
                 print(f"Document: {i+1}")
-                print(f"Topics: {response}")
+                print(f"Topics: {lvl, name, desc}")
                 print("--------------------")
             responses.append(response)
 
@@ -225,6 +352,12 @@ def main():
         default="openai",
         help="provider to use for API call ('openai', 'perplexity.ai', 'together.ai')",
     )
+    parser.add_argument(
+        "--self_ref_prompt_file",
+        type=str,
+        default=None,
+        help="file to read self-refinement prompt from",
+    )
     args = parser.parse_args()
 
     # Model configuration ----
@@ -247,6 +380,7 @@ def main():
     docs = df["text"].tolist()
     generation_prompt = open(args.prompt_file, "r").read()
     topics_root, topics_list = generate_tree(read_seed(args.seed_file))
+    self_ref_prompt = open(args.self_ref_prompt_file, "r").read()
 
     # Prompting ----
     responses, topics_list, topics_root = generate_topics(
@@ -262,6 +396,7 @@ def main():
         max_tokens,
         top_p,
         args.verbose,
+        self_ref_prompt=self_ref_prompt,
     )
 
     # Writing results ----
