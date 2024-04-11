@@ -288,7 +288,7 @@ def generate_topics(
 
             if verbose:
                 print(f"Document: {i+1}")
-                print(f"Topics: {lvl, name, desc}")
+                print(f"Topics: {response}")
                 print("--------------------")
             responses.append(response)
 
@@ -380,7 +380,10 @@ def main():
     docs = df["text"].tolist()
     generation_prompt = open(args.prompt_file, "r").read()
     topics_root, topics_list = generate_tree(read_seed(args.seed_file))
-    self_ref_prompt = open(args.self_ref_prompt_file, "r").read()
+
+    self_ref_prompt = None
+    if "self_ref_prompt_file" in df.columns:
+        self_ref_prompt = open(args.self_ref_prompt_file, "r").read()
 
     # Prompting ----
     responses, topics_list, topics_root = generate_topics(
