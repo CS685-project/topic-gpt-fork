@@ -29,7 +29,7 @@ def topic_pairs(topic_sent, all_pairs, threshold=0.5, num_pair=2):
             pairs.append({"index": [i, j], "score": cosine_scores[i][j].item()})
 
     # Sort and choose num_pair pairs with scores higher than a certain threshold
-    pairs = sorted(pairs, key=lambda x: x["score"], reverse=True) # TODO: do w/ numpy argsort
+    pairs = sorted(pairs, key=lambda x: x["score"], reverse=True)  # TODO: do w/ numpy argsort
     count, idx = 0, 0
     while count < num_pair and idx < len(pairs):
         i, j = pairs[idx]["index"]
@@ -199,7 +199,7 @@ def main():
     parser.add_argument(
         "--deployment_name",
         type=str,
-        help="model ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)",
+        help="model (e.g., 'gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)",
     )
     parser.add_argument(
         "--max_tokens", type=int, default=500, help="max tokens to generate"
@@ -333,7 +333,7 @@ def main():
             updated_responses.append("\n".join(sub_list))
         df["refined_responses"] = updated_responses
         df.to_json(args.updated_file, lines=True, orient="records")
-    else: 
+    else:
         print("No updated/merged topics!")
 
 
