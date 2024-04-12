@@ -1,0 +1,47 @@
+{
+    "together.ai":{
+        "mistral-7b-instruct-v0.1": {
+            "api_string": "mistralai/Mistral-7B-Instruct-v0.1",
+            "context": 8192
+        },
+        "mistral-7b-instruct-v0.2": {
+            "api_string": "mistralai/Mistral-7B-Instruct-v0.2",
+            "context": 32768
+        },
+        "mixtral-8x7b-instruct": {
+            "api_string": "mistralai/Mixtral-8x7B-Instruct-v0.1",
+            "context": 32768
+        },
+        "dolphin-2.5-mixtral-8x7b": {
+            "api_string": "cognitivecomputations/dolphin-2.5-mixtral-8x7b",
+            "context": 32768
+        },
+        "gemma-7b-it": {
+            "api_string": "google/gemma-7b-it",
+            "context": 8192
+        },                       
+        "llama-2-70b-chat": {
+            "api_string": "meta-llama/Llama-2-70b-chat-hf",
+            "context": 4096
+        }                        
+    },
+
+    "openai":{
+        "gpt-3.5-turbo": {
+            "api_string": "gpt-3.5-turbo",
+            "context": 16385 
+        },
+        "gpt-4": {
+            "api_string": "gpt-4",
+            "context": 8192
+        }
+    },
+
+    "perplexity.ai":{
+        "mistral-7b-instruct": {
+            "api_string": "mistral-7b-instruct",
+            "context": 8192
+        }
+    }
+
+}
