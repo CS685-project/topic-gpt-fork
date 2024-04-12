@@ -3,8 +3,7 @@ import json
 # TODO: Modify this file if you require a different lookup strategy
 #       (e.g., API calls instead of hard-coded JSON file)
 
-DEPLOYMENT_LOOKUP = json.load("../lookups/deployment_lookup.json")
-print(DEPLOYMENT_LOOKUP)
+DEPLOYMENT_LOOKUP = json.load(open("../lookups/deployment_lookup.json"))
 
 
 def check_if_in_lookup_file(deployment_name, provider):
