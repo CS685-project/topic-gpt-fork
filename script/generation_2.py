@@ -5,6 +5,8 @@ import traceback
 import argparse
 from tqdm import tqdm
 
+import lookup_utils
+
 
 def doc_label(df, topics_list):
     """
@@ -54,7 +56,7 @@ def generate_topics(
     - topics_node: current node of the topic tree
     - gen_prompt: generation prompt
     - context_len: length of the context
-    - deployment_name: model to run topic generation with ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)
+    - deployment_name: model to run topic generation with (e.g., 'gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)
     - provider: Provider to use for API call ('openai', 'perplexity.ai', 'together.ai')
     - max_tokens: max tokens to generate
     - temperature: temperature for generation
@@ -190,7 +192,7 @@ def main():
     parser.add_argument(
         "--deployment_name",
         type=str,
-        help="model to run topic generation with ('gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)",
+        help="model to run topic generation with (e.g., 'gpt-4', 'gpt-35-turbo', 'mistral-7b-instruct)",
     )
     parser.add_argument(
         "--max_tokens", type=int, default=500, help="max tokens to generate"
@@ -248,11 +250,7 @@ def main():
         args.top_p,
         args.provider,
     )
-    context = 4096
-    if deployment_name == "gpt-35-turbo":
-        deployment_name = "gpt-3.5-turbo"
-    if deployment_name == "gpt-4":
-        context = 8000
+    context = lookup_utils.get_context_length(deployment_name, provider)
     context_len = context - max_tokens
 
     # Load data ----
