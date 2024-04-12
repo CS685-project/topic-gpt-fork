@@ -17,6 +17,8 @@ from openai import OpenAI
 from pathlib import Path
 from dotenv import load_dotenv
 
+import lookup_utils
+
 # New code needed to get API keys from env across MacOS/Windows
 env_path = Path('..') / '.env'
 load_dotenv(dotenv_path=env_path, override=True)
@@ -32,17 +34,10 @@ client_pplx = OpenAI(api_key=PERPLEXITY_API_KEY, base_url="https://api.perplexit
 client_together = OpenAI(api_key=TOGETHER_API_KEY, base_url='https://api.together.xyz/v1')
 
 
-#Dictionary for together.ai models
-together_models = {
-    "llama-2-70b-chat": "codellama/CodeLlama-70b-Instruct-hf",
-    "codellama-34b-instruct": "codellama/CodeLlama-34b-Instruct-hf",
-    "mistral-7b-instruct": "mistralai/Mistral-7B-Instruct-v0.1"
-}
-
 @retry(wait=wait_random_exponential(min=1, max=20), stop=stop_after_attempt(6))
 def api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p):
     """
-    Call API (OpenAI, Azure, Perplexity) and return response
+    Call API (OpenAI, Together, Perplexity) and return response
     - prompt: prompt template
     - deployment_name: name of the deployment to use (e.g. gpt-4, gpt-3.5-turbo, etc.)
     - provider: provider to use for API call ('openai', 'perplexity.ai', 'together.ai')
@@ -50,86 +45,53 @@ def api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p):
     - max_tokens: max tokens parameter
     - top_p: top p parameter
     """
-    time.sleep(5)  # Change to avoid rate limit
-    if provider == "openai":
-        if deployment_name in ["gpt-35-turbo", "gpt-4", "gpt-3.5-turbo"]:
-            response = client_openai.chat.completions.create(
-                model=deployment_name,
-                temperature=float(temperature),
-                max_tokens=int(max_tokens),
-                top_p=float(top_p),
-                messages=[
-                    {"role": "system", "content": ""},
-                    {"role": "user", "content": prompt},
-                ],
-            )
-            return response.choices[0].message.content
-    elif provider == "perplexity.ai":
-        if deployment_name in [
-            "llama-2-70b-chat",
-            "codellama-34b-instruct",
-            "mistral-7b-instruct",
-        ]:
-            # Simplified request to perplexity API
-            response = client_pplx.chat.completions.create(
-                model=deployment_name,
-                temperature=float(temperature),
-                max_tokens=int(max_tokens),
-                top_p=float(top_p),
-                messages=[
-                    {"role": "system", "content": ""},
-                    {"role": "user", "content": prompt},
-                ],
-            )
-            return response.choices[0].message.content
-    elif provider == "together.ai":
-        if deployment_name in [
-            "llama-2-70b-chat",
-            "codellama-34b-instruct",
-            "mistral-7b-instruct",
-        ]:
-            # Simplified request to together API
-            response = client_together.chat.completions.create(
-                model=together_models[deployment_name],
-                temperature=float(temperature),
-                max_tokens=int(max_tokens),
-                top_p=float(top_p),
-                messages=[
-                    {"role": "system", "content": ""},
-                    {"role": "user", "content": prompt},
-                ],
-            )
-        return response.choices[0].message.content
+    # Together.ai has a rate limit of 1 query per second (QPS).
+    # Adjust if necessary.
+    time.sleep(1.2)
+    api_string = lookup_utils.get_api_string(deployment_name, provider)
 
-        # TODO: remove deprecated code below IF SOLUTION ABOVE WORKS PERFECTLY
-        payload = {
-            "model": deployment_name,
-            "temperature": float(temperature),
-            "max_tokens": int(max_tokens),
-            "top_p": float(top_p),
-            "request_timeout": 1000,
-            "messages": [
+    if provider == "openai":
+        response = client_openai.chat.completions.create(
+            model=api_string,
+            temperature=float(temperature),
+            max_tokens=int(max_tokens),
+            top_p=float(top_p),
+            messages=[
                 {"role": "system", "content": ""},
                 {"role": "user", "content": prompt},
             ],
-        }
-
-        headers = {
-            "accept": "application/json",
-            "content-type": "application/json",
-            "authorization": PERPLEXITY_API_KEY,
-        }
-        response = requests.post(
-            "https://api.perplexity.ai/chat/completions", json=payload, headers=headers
         )
-        print("Perplexity status code: ", response.status_code)
-        if response.status_code != 200:
-            print(response.status_code)
-            print(response.text)
-            raise Exception("Error in perplexity API call")
-        return response.json()["choices"][0]["message"]["content"]
+        return response.choices[0].message.content
+
+    elif provider == "perplexity.ai":
+        # Simplified request to perplexity API
+        response = client_pplx.chat.completions.create(
+            model=api_string,
+            temperature=float(temperature),
+            max_tokens=int(max_tokens),
+            top_p=float(top_p),
+            messages=[
+                {"role": "system", "content": ""},
+                {"role": "user", "content": prompt},
+            ],
+        )
+        return response.choices[0].message.content
+
+    elif provider == "together.ai":
+        # Simplified request to together API
+        response = client_together.chat.completions.create(
+            model=api_string,
+            temperature=float(temperature),
+            max_tokens=int(max_tokens),
+            top_p=float(top_p),
+            messages=[
+                {"role": "system", "content": ""},
+                {"role": "user", "content": prompt},
+            ],
+        )
     else:
-        print("Invalid deployment name. Please try again.")
+        raise KeyError(f"{provider} is not a valid provider name.")
+    return response.choices[0].message.content
 
 
 def get_ada_embedding(text, model="text-embedding-ada-002"):
