@@ -1,6 +1,7 @@
 from sklearn import metrics
 from openai import OpenAI
 import os
+import json
 import time
 import datetime
 import pytz
@@ -89,6 +90,8 @@ def api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p):
                 {"role": "user", "content": prompt},
             ],
         )
+        # Increment billing counters for shared API key
+        increment_total_cost(deployment_name, provider, response)
     else:
         raise KeyError(f"{provider} is not a valid provider name.")
     return response.choices[0].message.content
@@ -475,3 +478,20 @@ def calculate_metrics(true_col, pred_col, df):
     ari = metrics.adjusted_rand_score(df[true_col], df[pred_col])
     mis = metrics.normalized_mutual_info_score(df[true_col], df[pred_col])
     return (harmonic_purity, ari, mis)
+
+
+def increment_total_cost(deployment_name, provider, response):
+    file_name = "../api_billing.json"
+    user_name = os.environ["USER_NAME"]
+
+    with open(file_name, "rt") as file:
+        balances = json.load(file)
+
+    price_per_mio = lookup_utils.get_price(deployment_name, provider)
+    balance = balances[user_name]
+    balance += float(response.usage.total_tokens) / 1000000 * price_per_mio
+    balances[user_name] = balance
+    # print(f"{response.usage.total_tokens}, {price_per_mio}, {balance:.6f}")
+
+    with open(file_name, "wt") as file:
+        json.dump(balances, file)
