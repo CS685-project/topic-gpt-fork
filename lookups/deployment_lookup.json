@@ -4,47 +4,64 @@
         "7B models":"",
         "mistral-7b-instruct-v0_1": {
             "api_string": "mistralai/Mistral-7B-Instruct-v0.1",
-            "context": 8192
+            "context": 8192,
+            "price": 0.2
         },
         "mistral-7b-instruct-v0_2": {
             "api_string": "mistralai/Mistral-7B-Instruct-v0.2",
-            "context": 32768
+            "context": 32768,
+            "price": 0.2
         },
         "gemma-7b-it": {
             "api_string": "google/gemma-7b-it",
-            "context": 8192
+            "context": 8192,
+            "price": 0.2
         },   
     
 
         "30B models":"",
         "qwen-1_5-32b-chat": {
             "api_string": "Qwen/Qwen1.5-32B-Chat",
-            "context": 32768
+            "context": 32768,
+            "price": 0.8
         },
         "dolphin-2_5-mixtral-8x7b": {
             "api_string": "cognitivecomputations/dolphin-2.5-mixtral-8x7b",
-            "context": 32768
+            "context": 32768,
+            "price": 0.6
         },
         "mixtral-8x7b-instruct": {
             "api_string": "mistralai/Mixtral-8x7B-Instruct-v0.1",
-            "context": 32768
+            "context": 32768,
+            "price": 0.6
         },
 
 
         "70B models":"",
         "qwen-1_5-72b-chat": {
             "api_string": "Qwen/Qwen1.5-72B-Chat",
-            "context": 4096
+            "context": 4096,
+            "price": 0.9
         },
         "platypus2-70b-instruct": {
             "api_string": "garage-bAInd/Platypus2-70B-instruct",
-            "context": 32768
+            "context": 32768,
+            "price": 0.9
         },
         "llama-2-70b-chat": {
             "api_string": "meta-llama/Llama-2-70b-chat-hf",
-            "context": 4096
-        }  
+            "context": 4096,
+            "price": 0.9
+        },  
 
+
+        "132B models":"",
+        "dbrx-instruct": {
+            "api_string": "databricks/dbrx-instruct",
+            "context": 32000,
+            "price": 1.2
+        }
+        
     },
 
     "openai":{
