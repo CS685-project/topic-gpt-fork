@@ -13,3 +13,4 @@ tqdm==4.66.1
 # Fork imports
 python-dotenv
 ipykernel
+jsonlines

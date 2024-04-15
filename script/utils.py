@@ -1,7 +1,7 @@
 from sklearn import metrics
 from openai import OpenAI
 import os
-import json
+import jsonlines
 import time
 import datetime
 import pytz
@@ -481,17 +481,17 @@ def calculate_metrics(true_col, pred_col, df):
 
 
 def increment_total_cost(deployment_name, provider, response):
-    file_name = "../api_billing.json"
+    file_name = "../api_billing.jsonl"
     user_name = os.environ["USER_NAME"]
-
-    with open(file_name, "rt") as file:
-        balances = json.load(file)
-
     price_per_mio = lookup_utils.get_price(deployment_name, provider)
-    balance = balances[user_name]
-    balance += float(response.usage.total_tokens) / 1000000 * price_per_mio
-    balances[user_name] = balance
-    # print(f"{response.usage.total_tokens}, {price_per_mio}, {balance:.6f}")
+    lines = []
 
-    with open(file_name, "wt") as file:
-        json.dump(balances, file)
+    with jsonlines.open(file_name, mode='r') as ledger:
+        for balance in ledger:
+            if user_name in balance:
+                balance[user_name] += response.usage.total_tokens / 1000000 * price_per_mio
+            lines.append(balance)
+
+    with jsonlines.open(file_name, mode='w') as file:
+        for line in lines:
+            file.write(line)
