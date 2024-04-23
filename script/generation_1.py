@@ -6,6 +6,7 @@ import traceback
 from sentence_transformers import SentenceTransformer, util
 import argparse
 import os
+import json
 
 import lookup_utils
 
@@ -85,13 +86,20 @@ def prompt_formatting(
         prompt = generation_prompt.format(Document=doc, Topics=topic_str)
     return prompt
 
+def append_to_json(data, file_path):
+    with open(file_path, 'a') as json_file:
+        json.dump(data, json_file)
+        json_file.write('\n') 
 
 def generate_topics(
     topics_root,
     topics_list,
     context_len,
+    doc_ids,
+    doc_cpcs,
     docs,
     seed_file,
+    res_op_file,
     deployment_name,
     provider,
     generation_prompt,
@@ -133,6 +141,7 @@ def generate_topics(
             response = api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p)
             topics = response.split("\n")
             response_topics = []
+            response_output = {"id": doc_ids[i], "response_topics": []}
             for t in topics:
                 t = t.strip()
                 if regex.match(topic_format, t):
@@ -148,6 +157,7 @@ def generate_topics(
                             dups[0].count += 1
                             running_dups += 1
                             response_topics.append(f"DUP: [{lvl}] {name}: {desc}")
+                            response_output["response_topics"].append({"DUP": True, "lvl": lvl, "name": name, "desc": desc})
                             if running_dups > early_stop:
                                 return responses, topics_list, topics_root
                         else:  # Add new topic if topic doesn't exist
@@ -160,15 +170,18 @@ def generate_topics(
                             )
                             topics_list.append(f"[{new_node.lvl}] {new_node.name}")
                             response_topics.append(f"NEW: [{lvl}] {name}: {desc}")
-                            running_dups = 0
+                            response_output["response_topics"].append({"DUP": False, "lvl": lvl, "name": name, "desc": desc})
+                            unning_dups = 0
                     else:
                         if verbose:
                             print("Lower-level topics detected. Skipping...")
             if verbose:
+                print("response output:", response_output)
                 print(f"Document: {i+1}")
                 print(f"Topics: {response_topics}")
                 print("--------------------")
             responses.append(response)
+            append_to_json(response_output, res_op_file)
 
         except Exception as e:
             traceback.print_exc()
@@ -203,6 +216,13 @@ def main():
         default="prompt/generation_1.txt",
         help="file to read prompts from",
     )
+    parser.add_argument(
+        "--res_op_file",
+        type=str,
+        default="data/output/resp_generation_1.jsonl",
+        help="markdown file to read the seed topics from",
+    )
+    
     parser.add_argument(
         "--seed_file",
         type=str,
@@ -246,6 +266,8 @@ def main():
 
     # Load data ----
     df = pd.read_json(str(args.data), lines=True)
+    doc_ids = df["id"] #Pass this also
+    doc_cpcs = df["label"]
     docs = df["text"].tolist()
     generation_prompt = open(args.prompt_file, "r").read()
     topics_root, topics_list = generate_tree(read_seed(args.seed_file))
@@ -255,8 +277,11 @@ def main():
         topics_root,
         topics_list,
         context_len,
+        doc_ids,
+        doc_cpcs,
         docs,
         args.seed_file,
+        args.res_op_file,
         deployment_name,
         provider,
         generation_prompt,
