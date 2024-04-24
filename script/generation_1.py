@@ -184,8 +184,8 @@ def generate_topics(
                         if verbose:
                             print("Lower-level topics detected. Skipping...")
             if verbose:
-                print("response output:", response_output)
-                print(f"Document: {i+1}")
+                # print("response output:", response_output)
+                # print(f"Document: {i+1}")
                 print(f"Topics: {response_topics}")
                 print("--------------------")
             responses.append(response)
