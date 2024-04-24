@@ -6,6 +6,7 @@ import traceback
 from sentence_transformers import SentenceTransformer, util
 import argparse
 import os
+import json
 
 import lookup_utils
 
@@ -86,12 +87,25 @@ def prompt_formatting(
     return prompt
 
 
+def append_to_json(data, file_path):
+    with open(file_path, 'a') as json_file:
+        json.dump(data, json_file)
+        json_file.write('\n')
+
+
+def overwrite_json(file_path):
+    open(file_path, 'w').close()
+
+
 def generate_topics(
     topics_root,
     topics_list,
     context_len,
+    doc_ids,
+    doc_cpcs,
     docs,
     seed_file,
+    cont_out_file,
     deployment_name,
     provider,
     generation_prompt,
@@ -118,6 +132,8 @@ def generate_topics(
     running_dups = 0
     topic_format = regex.compile("^\[(\d+)\] ([\w\s]+):(.+)")
 
+    overwrite_json(cont_out_file)
+
     for i, doc in enumerate(tqdm(docs)):
         prompt = prompt_formatting(
             generation_prompt,
@@ -133,6 +149,7 @@ def generate_topics(
             response = api_call(prompt, deployment_name, provider, temperature, max_tokens, top_p)
             topics = response.split("\n")
             response_topics = []
+            response_output = {"id": doc_ids.iloc[i], "cpc_codes": doc_cpcs.iloc[i], "topics": []}
             for t in topics:
                 t = t.strip()
                 if regex.match(topic_format, t):
@@ -144,7 +161,8 @@ def generate_topics(
                     )
                     if lvl == 1:
                         dups = [s for s in topics_root.descendants if s.name == name]
-                        if len(dups) > 0:  # Update count if topic already exists
+                        is_duplicate = len(dups) > 0
+                        if is_duplicate:  # Update count if topic already exists
                             dups[0].count += 1
                             running_dups += 1
                             response_topics.append(f"DUP: [{lvl}] {name}: {desc}")
@@ -161,14 +179,17 @@ def generate_topics(
                             topics_list.append(f"[{new_node.lvl}] {new_node.name}")
                             response_topics.append(f"NEW: [{lvl}] {name}: {desc}")
                             running_dups = 0
+                        response_output["topics"].append({"duplicate": is_duplicate, "lvl": lvl, "name": name, "desc": desc})
                     else:
                         if verbose:
                             print("Lower-level topics detected. Skipping...")
             if verbose:
-                print(f"Document: {i+1}")
+                # print("response output:", response_output)
+                # print(f"Document: {i+1}")
                 print(f"Topics: {response_topics}")
                 print("--------------------")
             responses.append(response)
+            append_to_json(response_output, cont_out_file)
 
         except Exception as e:
             traceback.print_exc()
@@ -203,6 +224,13 @@ def main():
         default="prompt/generation_1.txt",
         help="file to read prompts from",
     )
+    parser.add_argument(
+        "--cont_out_file",
+        type=str,
+        default="data/output/cont_generation_1.jsonl",
+        help="file to continuously write results to (independent of other result files)",
+    )
+
     parser.add_argument(
         "--seed_file",
         type=str,
@@ -246,6 +274,8 @@ def main():
 
     # Load data ----
     df = pd.read_json(str(args.data), lines=True)
+    doc_ids = df["id"]  # Pass this also
+    doc_cpcs = df["label"]
     docs = df["text"].tolist()
     generation_prompt = open(args.prompt_file, "r").read()
     topics_root, topics_list = generate_tree(read_seed(args.seed_file))
@@ -255,8 +285,11 @@ def main():
         topics_root,
         topics_list,
         context_len,
+        doc_ids,
+        doc_cpcs,
         docs,
         args.seed_file,
+        args.cont_out_file,
         deployment_name,
         provider,
         generation_prompt,
