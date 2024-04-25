@@ -52,7 +52,12 @@
             "api_string": "meta-llama/Llama-2-70b-chat-hf",
             "context": 4096,
             "price": 0.9
-        },  
+        },
+        "llama-3-70b-chat" : {
+            "api_string": "meta-llama/Llama-3-70b-chat-hf",
+            "context": 8192,
+            "price": 0.9
+        },
 
 
         "132B models":"",
