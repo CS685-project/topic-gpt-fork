@@ -10,13 +10,13 @@ import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
-def topic_pairs(topic_sent, all_pairs, threshold=0.5, num_pair=2):
+def topic_pairs(topic_sent, all_pairs, threshold, num_pairs, verbose):
     """
     Return the most similar topic pairs and the pairs that have been prompted so far
     - topic_sent: List of topic sentences (topic label + description)
     - all_pairs: List of all topic pairs being prompted so far
     - threshold: Threshold for cosine similarity
-    - num_pair: Number of pairs to return
+    - num_pair: number of topic pairs to be merged in the current iteration
     """
     # Calculate cosine similarity between all pairs of sentences
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -24,16 +24,22 @@ def topic_pairs(topic_sent, all_pairs, threshold=0.5, num_pair=2):
     embeddings = sbert.encode(topic_sent, convert_to_tensor=True)
     cosine_scores = util.cos_sim(embeddings, embeddings).cpu()
     over, pairs = [], []
+
+    # Loop over cosine similarity matrix, get unique sentence pairs (triangular matrix)
     for i in range(len(cosine_scores)):
         for j in range(i+1, len(cosine_scores)):
             pairs.append({"index": [i, j], "score": cosine_scores[i][j].item()})
 
     # Sort and choose num_pair pairs with scores higher than a certain threshold
     pairs = sorted(pairs, key=lambda x: x["score"], reverse=True)  # TODO: do w/ numpy argsort
+    if verbose:
+        print("Similarity: " + " ".join([str(round(pair["score"], 2)) for pair in pairs]))
     count, idx = 0, 0
-    while count < num_pair and idx < len(pairs):
+    while count < num_pairs and idx < len(pairs):
         i, j = pairs[idx]["index"]
+        # Consider topic pair if similarity is high enough
         if float(pairs[idx]["score"]) > threshold:
+            # Consider topic pair if it does not already exist and the topics are not identical
             if (sorted([topic_sent[i], topic_sent[j]]) not in all_pairs) and (
                 topic_sent[i] != topic_sent[j]
             ):
@@ -54,6 +60,8 @@ def merge_topics(
     max_tokens,
     top_p,
     verbose,
+    threshold,
+    num_pairs
 ):
     """
     Prompt model to merge similar topics
@@ -66,6 +74,8 @@ def merge_topics(
     - max_tokens: Max tokens to generate
     - top_p: Top-p
     - verbose: Whether to print out results
+    - treshold: Threshold value to define similarity of the topic embeddings
+    - num_pairs: Number of topic pairs to be merged in one iteration
     """
     # Get new pairs to be merged
     topic_sent = [
@@ -73,9 +83,8 @@ def merge_topics(
     ]
     labels = [f"[{topic.lvl}] {topic.name}" for topic in topics_root.descendants]
     new_pairs, all_pairs = topic_pairs(
-        topic_sent, all_pairs=[], threshold=0.5, num_pair=2
+        topic_sent, all_pairs=[], threshold=threshold, num_pairs=num_pairs, verbose=verbose
     )
-
     responses, removed, orig_new = [], [], {}
     # Pattern to match generations
     top_pattern = regex.compile(
@@ -98,10 +107,7 @@ def merge_topics(
             print(refiner_input)
 
         try:
-            input_len = num_tokens_from_messages(refiner_input, "gpt-4")
-            response = api_call(
-                refiner_prompt, deployment_name, provider, temperature, max_tokens, top_p
-            )
+            response = api_call(refiner_prompt, deployment_name, provider, temperature, max_tokens, top_p)
             responses.append(response)
             merges = response.split("\n")
             for merge in merges:
@@ -169,10 +175,11 @@ def merge_topics(
         except:
             print("Error when calling API!")
             traceback.print_exc()
+            exit(0)
         print("--------------------")
-        # Choose new pairs
+        # Choose new set of topics to be merged
         new_pairs, all_pairs = topic_pairs(
-            topic_sent, all_pairs, threshold=0.5, num_pair=2
+            topic_sent, all_pairs, threshold=threshold, num_pairs=num_pairs, verbose=verbose
         )
     return responses, topics_root, orig_new
 
@@ -260,6 +267,18 @@ def main():
         default="openai",
         help="provider ('openai', 'perplexity.ai', 'together.ai)",
     )
+    parser.add_argument(
+        "--num_pairs",
+        type=int,
+        default=2,
+        help="Number of topic pairs merged in one iteration.",
+    )
+    parser.add_argument(
+        "--threshold",
+        type=float,
+        default=0.5,
+        help="Threshold for similarity of the topic embeddings.",
+    )
 
     args = parser.parse_args()
 
@@ -289,6 +308,8 @@ def main():
         max_tokens,
         top_p,
         args.verbose,
+        args.threshold,
+        args.num_pairs
     )
     if args.remove:
         updated_topics_root = remove_topics(
