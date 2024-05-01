@@ -4,16 +4,20 @@ You will receive a document and a set of top-level topics from a topic hierarchy
 {Topics}
 
 [Examples]
-Example 1: Adding "[1] Agriculture"
+
+Example 1: Adding "[1] Operational Mobility" and "[1] Operational Flexibility"
 [Document]
-Saving Essential American Sailors Act or SEAS Act - Amends the Moving Ahead for Progress in the 21st Century Act (MAP-21) to repeal the Act's repeal of the agricultural export requirements that: (1) 25% of the gross tonnage of certain agricultural commodities or their products exported each fiscal year be transported on U.S. commercial vessels, and (2) the Secretary of Transportation (DOT) finance any increased ocean freight charges incurred in the transportation of such items. Revives and reinstates those repealed requirements to read as if they were never repealed.
+A mobile steel grit dryer used to dry steel grit may be configured with a number of different functions and features to assist a contractor in performing steel or other structure maintenance when using steel grit in resurfacing the structure. The steel grit dryer may be configured with a heat process vacuum bypass so that an off-board vacuum, such as a vacuum on a grit recycling system, may be utilized as opposed to having an onboard vacuum. The dryer may include multiple modes so that an operator may use different modes for different environmental conditions. An exoframe may provide for better durability when being transported to different jobsites. A variety of automation and safety features may also be provided to simplify and improve safety for operators.
 [Your response]
-[1] Agriculture: Mentions policies relating to agricultural practices and products.
+[1] Operational Mobility: Innovation pertaining to the improvement of mobility when executing a task.
+[1] Operational Flexibility: Improvement of flexibility of an operation in a business or manufacturing environment. 
+
 Example 2: Duplicate "[1] Trade", returning the existing topic
 [Document]
 Amends the Harmonized Tariff Schedule of the United States to suspend temporarily the duty on mixtures containing Fluopyram.
 [Your response]
 [1] Trade: Mentions the exchange of capital, goods, and services.
+
 
 [Instructions]
 Step 1: Determine topics mentioned in the document. 
@@ -27,6 +31,7 @@ Step 2: Perform ONE of the following operations:
 - Otherwise, add your topic as a top-level topic. Stop here and output the added topic(s). DO NOT add any additional levels.
 
 You must ONLY return the relevant or modified topics at the top level in the hierarchy. The topics must follow the following pattern: "[<level>] <label> <description>".
+Hint: the topics should reflect the nature of the innovation that the document proposes.
 
 [Document]
 {Document}
