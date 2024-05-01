@@ -1,195 +1,70 @@
-[1] Power Systems: -> [1] Fuel Cells and Power Systems:
-[1] Fuel Cells: -> [1] Fuel Cells and Power Systems:
-[1] Hydrogen Fuel Cells: -> [1] Fuel Cells and Power Systems:
-[1] Power Management: -> [1] Fuel Cells and Power Systems:
-[1] Building Construction: -> [1] Building Design:
-[1] Architecture: -> [1] Building Design:
-[1] Offshore Engineering: -> [1] Offshore and Ocean Engineering:
-[1] Ocean Engineering: -> [1] Offshore and Ocean Engineering:
-[1] Computer Networks: -> [1] Computer Networking:
-[1] Networking: -> [1] Computer Networking:
-[1] Computer Architecture: -> [1] Computer Systems and Architecture:
-[1] Computer Systems: -> [1] Computer Systems and Architecture:
-[1] Appliances: -> [1] Home and Appliances:
-[1] Home Automation: -> [1] Home and Appliances:
-[1] Biogas: -> [1] Bioenergy:
-[1] Biofuels: -> [1] Bioenergy:
-[1] Energy: -> [1] Energy Systems:
-[1] Energy Distribution: -> [1] Energy Systems:
-[1] Energy Generation: -> [1] Energy Systems:
-[1] Power Generation: -> [1] Energy Systems:
-[1] Electric Vehicles: -> [1] Electric and Hybrid Vehicles:
-[1] Hybrid Vehicles: -> [1] Electric and Hybrid Vehicles:
-[1] Electronics: -> [1] Electronics and Power Electronics:
-[1] Power Electronics: -> [1] Electronics and Power Electronics:
-[1] Energy Storage: -> [1] Energy:
-[1] Hydroelectric Power: -> [1] Energy:
-[1] Hydropower: -> [1] Energy:
-[1] Energy Systems: -> [1] Energy:
-[1] Biomedical Imaging: -> [1] Medical Imaging:
-[1] 3D Printing: -> [1] 3D Manufacturing:
-[1] Additive Manufacturing: -> [1] 3D Manufacturing:
-[1] Renewable Energy: -> [1] Energy Systems:
-[1] Wind Energy: -> [1] Energy Systems:
-[1] Fuel Systems: -> [1] Energy Systems:
-[1] Photovoltaics: -> [1] Energy Systems:
-[1] Solar Energy: -> [1] Energy Systems:
-[1] Fuel Cells and Power Systems: -> [1] Energy Systems:
-[1] Waste Management: -> [1] Waste and Recycling:
-[1] Recycling: -> [1] Waste and Recycling:
-[1] Imaging: -> [1] Imaging and Diagnostics:
-[1] Medical Imaging: -> [1] Imaging and Diagnostics:
-[1] Chemical Processing: -> [1] Materials and Chemical Processing:
-[1] Materials Processing: -> [1] Materials and Chemical Processing:
-[1] Aerospace Engineering: -> [1] Aerospace and Marine Engineering:
-[1] Marine Engineering: -> [1] Aerospace and Marine Engineering:
-[1] Offshore and Ocean Engineering: -> [1] Aerospace and Marine Engineering:
-[1] Agriculture: -> [1] Agriculture and Horticulture:
-[1] Horticulture: -> [1] Agriculture and Horticulture:
-[1] Emissions Control: -> [1] Emissions and Exhaust Systems:
-[1] Exhaust Systems: -> [1] Emissions and Exhaust Systems:
-[1] Energy Recovery: -> [1] Energy Conversion:
-[1] Energy Harvesting: -> [1] Energy Conversion:
-[1] Biochemical Production: -> [1] Biochemical and Bioenergy:
-[1] Bioenergy: -> [1] Biochemical and Bioenergy:
-[1] Telecommunications: -> [1] Telecommunications and Information Technology:
-[1] Telematics: -> [1] Telecommunications and Information Technology:
-[1] Engineering: -> [1] Engineering Systems:
-[1] Electrical Systems: -> [1] Engineering Systems:
-[1] Mechanical Systems: -> [1] Engineering Systems:
-[1] Transmission Systems: -> [1] Engineering Systems:
-[1] Electronics and Power Electronics: -> [1] Engineering Systems:
-[1] Information Technology: -> [1] Information and Communication Technology:
-[1] Telecommunications and Information Technology: -> [1] Information and Communication Technology:
-[1] Construction: -> [1] Building and Construction:
-[1] Building Design: -> [1] Building and Construction:
-[1] Aviation: -> [1] Aerospace and Aviation Engineering:
-[1] Aerospace and Marine Engineering: -> [1] Aerospace and Aviation Engineering:
-[1] Wireless Communication: -> [1] Information and Communication Systems:
-[1] Information and Communication Technology: -> [1] Information and Communication Systems:
-[1] Power Systems: -> [1] Fuel Cells and Power Systems:
-[1] Fuel Cells: -> [1] Fuel Cells and Power Systems:
-[1] Hydrogen Fuel Cells: -> [1] Fuel Cells and Power Systems:
-[1] Power Management: -> [1] Fuel Cells and Power Systems:
-[1] Building Construction: -> [1] Building Design:
-[1] Architecture: -> [1] Building Design:
+[1] Hydrogen Fuel Cells: -> [1] Fuel Cells:
+[1] Building Construction: -> [1] Building Design and Construction:
+[1] Architecture: -> [1] Building Design and Construction:
+[1] Power Systems: -> [1] Power Management:
 [1] Offshore Engineering: -> [1] Ocean and Offshore Engineering:
 [1] Ocean Engineering: -> [1] Ocean and Offshore Engineering:
-[1] Computer Networks: -> [1] Computer Networking:
-[1] Networking: -> [1] Computer Networking:
+[1] Computer Networks: -> [1] Network Communication:
+[1] Networking: -> [1] Network Communication:
 [1] Computer Architecture: -> [1] Computer Systems and Architecture:
 [1] Computer Systems: -> [1] Computer Systems and Architecture:
-[1] Energy: -> [1] Home and Energy Systems:
-[1] Appliances: -> [1] Home and Energy Systems:
-[1] Home Automation: -> [1] Home and Energy Systems:
-[1] Energy Distribution: -> [1] Home and Energy Systems:
-[1] Biogas: -> [1] Biofuels:
-[1] Electric Vehicles: -> [1] Electric and Hybrid Vehicles:
-[1] Hybrid Vehicles: -> [1] Electric and Hybrid Vehicles:
+[1] Appliances: -> [1] Home and Commercial Devices:
+[1] Home Automation: -> [1] Home and Commercial Devices:
+[1] Biogas: -> [1] Bioenergy:
+[1] Biofuels: -> [1] Bioenergy:
+[1] Energy: -> [1] Energy Management:
+[1] Energy Distribution: -> [1] Energy Management:
+[1] Electric Vehicles: -> [1] Alternative Fuel Vehicles:
+[1] Hybrid Vehicles: -> [1] Alternative Fuel Vehicles:
 [1] Electronics: -> [1] Electronics and Power Systems:
-[1] Energy Generation: -> [1] Electronics and Power Systems:
 [1] Power Electronics: -> [1] Electronics and Power Systems:
-[1] Power Generation: -> [1] Electronics and Power Systems:
+[1] Energy Generation: -> [1] Energy Production:
+[1] Power Generation: -> [1] Energy Production:
 [1] Electrical Systems: -> [1] Electrical Engineering:
 [1] Electronics and Power Systems: -> [1] Electrical Engineering:
-[1] Biomedical Imaging: -> [1] Medical Imaging:
-[1] Hydroelectric Power: -> [1] Hydroelectric Power Generation:
-[1] Hydropower: -> [1] Hydroelectric Power Generation:
+[1] Biomedical Imaging: -> [1] Medical and Biomedical Imaging:
+[1] Medical Imaging: -> [1] Medical and Biomedical Imaging:
+[1] Hydropower: -> [1] Hydroelectric Power:
 [1] 3D Printing: -> [1] 3D Printing and Additive Manufacturing:
 [1] Additive Manufacturing: -> [1] 3D Printing and Additive Manufacturing:
-[1] Fuel Systems: -> [1] Energy Systems:
-[1] Fuel Cells and Power Systems: -> [1] Energy Systems:
-[1] Renewable Energy: -> [1] Energy:
-[1] Energy Storage: -> [1] Energy:
-[1] Wind Energy: -> [1] Energy:
-[1] Photovoltaics: -> [1] Energy:
-[1] Solar Energy: -> [1] Energy:
-[1] Energy Systems: -> [1] Energy:
-[1] Waste Management: -> [1] Waste and Materials Processing:
-[1] Recycling: -> [1] Waste and Materials Processing:
-[1] Materials Processing: -> [1] Waste and Materials Processing:
-[1] Aviation: -> [1] Aerospace:
-[1] Aerospace Engineering: -> [1] Aerospace:
+[1] Electrical Engineering: -> [1] Engineering:
+[1] Energy Harvesting: -> [1] Energy Generation:
+[1] Energy Production: -> [1] Energy Generation:
+[1] Wind Energy: -> [1] Renewable Energy:
+[1] Construction: -> [1] Construction and Building Design:
+[1] Building Design and Construction: -> [1] Construction and Building Design:
+[1] Photovoltaics: -> [1] Solar Energy:
+[1] Waste Management: -> [1] Waste and Recycling:
+[1] Recycling: -> [1] Waste and Recycling:
+[1] Energy Storage: -> [1] Energy Storage Systems:
+[1] Capacitors: -> [1] Energy Storage Systems:
+[1] Chemical Processing: -> [1] Processing Technologies:
+[1] Materials Processing: -> [1] Processing Technologies:
+[1] Aviation: -> [1] Aerospace and Aviation:
+[1] Aerospace Engineering: -> [1] Aerospace and Aviation:
 [1] Agriculture: -> [1] Agriculture and Horticulture:
 [1] Horticulture: -> [1] Agriculture and Horticulture:
-[1] Emissions Control: -> [1] Emissions Management:
-[1] Exhaust Systems: -> [1] Emissions Management:
-[1] Energy Recovery: -> [1] Energy Generation:
-[1] Energy Harvesting: -> [1] Energy Generation:
-[1] Biotechnology: -> [1] Bioproducts:
-[1] Biochemical Production: -> [1] Bioproducts:
-[1] Telecommunications: -> [1] Remote Systems Management:
-[1] Telematics: -> [1] Remote Systems Management:
-[1] Engineering: -> [1] Engineering Systems:
-[1] Automotive: -> [1] Engineering Systems:
-[1] Mechanical Systems: -> [1] Engineering Systems:
-[1] Electric Machines: -> [1] Engineering Systems:
-[1] Home and Energy Systems: -> [1] Engineering Systems:
-[1] Electric and Hybrid Vehicles: -> [1] Engineering Systems:
-[1] Construction: -> [1] Engineering:
-[1] Marine Engineering: -> [1] Engineering:
-[1] Building Design: -> [1] Engineering:
-[1] Ocean and Offshore Engineering: -> [1] Engineering:
-[1] Electrical Engineering: -> [1] Engineering:
-[1] Engineering Systems: -> [1] Engineering:
-[1] Wireless Power Transfer: -> [1] Energy Transfer and Transmission:
-[1] Transmission Systems: -> [1] Energy Transfer and Transmission:
-[1] Fuel Cells: -> [1] Energy Conversion:
-[1] Hydrogen Fuel Cells: -> [1] Energy Conversion:
-[1] Building Construction: -> [1] Building Design:
-[1] Architecture: -> [1] Building Design:
-[1] Power Systems: -> [1] Power and Energy Systems:
-[1] Power Management: -> [1] Power and Energy Systems:
-[1] Offshore Engineering: -> [1] Offshore and Ocean Engineering:
-[1] Ocean Engineering: -> [1] Offshore and Ocean Engineering:
-[1] Computer Networks: -> [1] Computer Systems and Networking:
-[1] Computer Systems: -> [1] Computer Systems and Networking:
-[1] Networking: -> [1] Computer Systems and Networking:
-[1] Appliances: -> [1] Home and Appliances:
-[1] Home Automation: -> [1] Home and Appliances:
-[1] Energy: -> [1] Energy Systems:
-[1] Electric Vehicles: -> [1] Energy Systems:
-[1] Hybrid Vehicles: -> [1] Energy Systems:
-[1] Energy Distribution: -> [1] Energy Systems:
-[1] Electronics: -> [1] Energy and Electronics:
-[1] Energy Generation: -> [1] Energy and Electronics:
-[1] Power Electronics: -> [1] Energy and Electronics:
-[1] Energy Systems: -> [1] Energy and Electronics:
-[1] Energy Storage: -> [1] Energy Systems:
-[1] Energy Harvesting: -> [1] Energy Systems:
-[1] Energy Conversion: -> [1] Energy Systems:
-[1] Energy and Electronics: -> [1] Energy Systems:
-[1] Biomedical Imaging: -> [1] Medical Imaging and Biomedical Imaging:
-[1] Medical Imaging: -> [1] Medical Imaging and Biomedical Imaging:
-[1] Hydroelectric Power: -> [1] Hydroelectric Power and Hydropower:
-[1] Hydropower: -> [1] Hydroelectric Power and Hydropower:
-[1] 3D Printing: -> [1] 3D Printing and Additive Manufacturing:
-[1] Additive Manufacturing: -> [1] 3D Printing and Additive Manufacturing:
-[1] Photovoltaics: -> [1] Renewable Energy:
-[1] Solar Energy: -> [1] Renewable Energy:
-[1] Waste Management: -> [1] Waste Recycling:
-[1] Recycling: -> [1] Waste Recycling:
-[1] Chemical Processing: -> [1] Materials and Chemical Processing:
-[1] Materials Processing: -> [1] Materials and Chemical Processing:
-[1] Agriculture: -> [1] Agriculture and Land Development:
-[1] Horticulture: -> [1] Agriculture and Land Development:
-[1] Building Design: -> [1] Agriculture and Land Development:
-[1] Emissions Control: -> [1] Exhaust Management:
-[1] Exhaust Systems: -> [1] Exhaust Management:
+[1] Emissions Control: -> [1] Exhaust Gas Management:
+[1] Exhaust Systems: -> [1] Exhaust Gas Management:
+[1] Wireless Communication: -> [1] Communication Systems:
+[1] Network Communication: -> [1] Communication Systems:
+[1] Telecommunications: -> [1] Information Transmission:
+[1] Communication Systems: -> [1] Information Transmission:
 [1] Biotechnology: -> [1] Biotechnology and Biochemical Production:
 [1] Biochemical Production: -> [1] Biotechnology and Biochemical Production:
-[1] Telecommunications: -> [1] Telecommunications and Telematics:
-[1] Telematics: -> [1] Telecommunications and Telematics:
+[1] Medical and Biomedical Imaging: -> [1] Imaging:
 [1] Engineering: -> [1] Engineering Systems:
 [1] Mechanical Systems: -> [1] Engineering Systems:
-[1] Marine Engineering: -> [1] Engineering Systems:
-[1] Offshore and Ocean Engineering: -> [1] Engineering Systems:
-[1] Electrical Systems: -> [1] Energy Systems:
-[1] Power Generation: -> [1] Energy Systems:
-[1] Engineering Systems: -> [1] Energy Systems:
-[1] Computer Architecture: -> [1] Computer Systems:
-[1] Computer Systems and Networking: -> [1] Computer Systems:
-[1] Materials Science: -> [1] Materials and Nanotechnology:
-[1] Nanotechnology: -> [1] Materials and Nanotechnology:
-[1] Materials and Chemical Processing: -> [1] Materials Science:
-[1] Materials and Nanotechnology: -> [1] Materials Science:
+[1] Bioenergy: -> [1] Biotechnology:
+[1] Biotechnology and Biochemical Production: -> [1] Biotechnology:
+[1] Marine Engineering: -> [1] Ocean Engineering:
+[1] Ocean and Offshore Engineering: -> [1] Ocean Engineering:
+[1] Wireless Power Transfer: -> [1] Power Transmission:
+[1] Transmission Systems: -> [1] Power Transmission:
+[1] Robotics: -> [1] Autonomous Devices:
+[1] Home and Commercial Devices: -> [1] Autonomous Devices:
+[1] Materials Science: -> [1] Materials Engineering:
+[1] Nanotechnology: -> [1] Materials Engineering:
+[1] Sensors: -> [1] Environmental Sensing:
+[1] Environmental Monitoring: -> [1] Environmental Sensing:
+[1] Hydroelectric Power: -> [1] Renewable Energy:
