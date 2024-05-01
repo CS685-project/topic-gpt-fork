@@ -321,13 +321,16 @@ def main():
         with open(args.out_file, "w") as f:
             print(tree_view(updated_topics_root), file=f)
 
+        # TODO: Original code appends new mapping to existing one here, no idea why!
         # Writing orig-new mapping ----
-        try:
-            current = open(args.mapping_file).read().strip().split("\n")
-            if args.verbose:
-                print(f"Writing to existing mapping file {args.mapping_file}")
-        except:
-            current = []
+        # try:
+        #     current = open(args.mapping_file).read().strip().split("\n")
+        #     if args.verbose:
+        #         print(f"Writing to existing mapping file {args.mapping_file}")
+        # except:
+            # current = []
+
+        current = []
         with open(args.mapping_file, "w") as f:
             for key, value in mapping.items():
                 current.append(f"{key} -> {value}")
