@@ -1,0 +1,10 @@
+Same prompt as the baseline innovation_type trial. 
+No seed topics.
+Newly generated topics are not added to the prompt.
+
+Theory:
+- Robust to document order
+- Task complexity is invariant to the number of documents
+
+Result:
+- Actually looks somewhat promising, running it again for 200 documents.

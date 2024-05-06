@@ -1,0 +1,11 @@
+Same trial as innovation_type (altered prompt, no seed topics). 
+Prompt is only changed in one way: "type(s)" replaced with "types"
+
+Theory:
+- Shows sensitivity of the prompt to small changes
+
+Results:
+- Does actually change the topics a bit, but confusing
+- Hard to interpret
+- Does not seem to affect the number of assigned topics per document, but this might be a bug in the framework! 
+--> Looked like it did in the initial output of the generation... could investigate but maybe not high-prio enough

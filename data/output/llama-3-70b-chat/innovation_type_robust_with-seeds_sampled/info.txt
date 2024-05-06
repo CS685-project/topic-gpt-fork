@@ -1,0 +1,6 @@
+Like innovation_type_robust_with_seeds, but nucleus sampling with p=0.5 applied. 
+Theory:
+- Might improve diversity of results, since seed topics made it worse
+
+Results:
+- No effect, abandoning this
