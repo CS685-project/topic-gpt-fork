@@ -1,15 +1,15 @@
-[1] Communication Protocols: -> [1] Communication Technology:
-[1] Communication Systems: -> [1] Communication Technology:
-[1] Energy Systems: -> [1] Energy:
-[1] Biological Processes: -> [1] Processes:
-[1] Chemical Processes: -> [1] Processes:
-[1] Mechanical Systems: -> [1] Systems:
-[1] Systems: -> [1] Systems Engineering:
-[1] Control Systems: -> [1] Systems Engineering:
-[1] Electrical Systems: -> [1] Electrical and Electronics:
-[1] Electronics: -> [1] Electrical and Electronics:
-[1] Manufacturing Processes: -> [1] Processes:
-[1] Processes: -> [1] Information Systems:
-[1] Information Processing Systems: -> [1] Information Systems:
-[1] Systems Engineering: -> [1] Systems Development:
-[1] Information Systems: -> [1] Systems Development:
+[1] Electronic Systems: -> [1] Electronics:
+[1] Products: -> [1] Product Development:
+[1] Product Design: -> [1] Product Development:
+[1] Computing Hardware: -> [1] Computing:
+[1] Energy Generation: -> [1] Energy Generation and Storage:
+[1] Design Components: -> [1] System Components:
+[1] Components: -> [1] System Components:
+[1] Communication Protocols: -> [1] Communication Systems:
+[1] Electronic Components: -> [1] Electronics:
+[1] Electronic Circuits: -> [1] Electronics:
+[1] Mechanical Components: -> [1] Mechanical Systems:
+[1] Manufacturing Processes: -> [1] Manufacturing:
+[1] Manufacturing Systems: -> [1] Manufacturing:
+[1] Systems: -> [1] Systems and Components:
+[1] System Components: -> [1] Systems and Components:
