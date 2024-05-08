@@ -1,10 +1,13 @@
-Same prompt as the baseline innovation_type trial. 
+Same prompt as the baseline innovation_type trial, except I replaced "type(s)" with "types".
 No seed topics.
-Newly generated topics are not added to the prompt.
+Newly generated topics are not added to the prompt --> robustness property.
 
 Theory:
 - Robust to document order
 - Task complexity is invariant to the number of documents
+- No dilution of seed topic impact (though I did not use seed topics)
 
 Result:
-- Actually looks somewhat promising, running it again for 200 documents.
+- Creates a lot more topics than the non-robust trial
+- Topics are better imo, because the non-robust trial is heavily biased towards the "systems" category
+--> Check for some examples if systems makes sense!!!

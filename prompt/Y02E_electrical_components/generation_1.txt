@@ -1,0 +1,63 @@
+You will receive a document and a set of topics found in previous documents. Your task is to identify generalizable topics within the document that can act as top-level topics in the hierarchy. If any relevant topics are missing from the provided set, please add them. Otherwise, output the existing top-level topics as identified in the document.
+
+[Topics]
+{Topics}
+
+
+[Examples]
+Example 1: Adding "[1] Electrical Circuit Components" and "[1] Conductive Materials".
+[Abstract]
+Light detecting structures comprising germanium (Ge) photodiodes formed in a device layer of a germanium on-insulator (GeOI) wafer, focal planes arrays based on such Ge photodiodes (PDs) and methods for fabricating such Ge photodiodes and focal plane arrays (FPAs). An FPA includes a Ge-on-GeOI PD array bonded to a ROIC where the handle layer of the GeOI layer is removed. The GeOI insulator properties and thickness can be designed to improve light coupling into the PDs.
+[Your response]
+[1] Electrical Circuit Components: Mentions components used for the design of electrical circuits.
+[1] Conductive Materials: Describes a type of conductive material, such as a semiconductor, a metal alloy or an electrode material.
+
+Example 2: Returning "None".
+[Abstract]
+A gear lubricant line device includes a base body configured to attach to an end surface of a gear and a mount including a holder for a lubricant applicator. The mount is slidably mounted on the base body and releasably fixable to the base body to hold the lubricant applicator in a desired position relative to a tooth base of the gear.
+[Your response]
+None
+
+Example 3: Adding "[1] Electricity Storage" and "[1] Conductive Materials".
+[Abstract]
+Provided is a solid electrolyte laminate comprising a solid electrolyte layer having proton conductivity and a cathode electrode layer laminated on one side of the solid electrolyte layer and made of lanthanum strontium cobalt oxide (LSC). Also provided is a method for manufacturing the solid electrolyte. This solid electrolyte laminate can further comprise an anode electrode layer made of nickel-yttrium doped barium zirconate (Ni\u2014BZY). This solid electrolyte laminate is suitable for a fuel cell operating in an intermediate temperature range less than or equal to 600\u00b0 C.
+[Your response]
+[1] Electricity Storage: Pertains to batteries and other types of power storage devices.
+[1] Conductive Materials: Describes a type of conductive material, such as a semiconductor, a metal alloy or an electrode material.
+
+Example 4: Returning "[1] Power Generation" and "[1] Electricity Monitoring".
+[Abstract]
+A rotational positioning system in a wind turbine is provided that comprises a driven part, a plurality of positioning drives coupled to the driven part, a plurality of sensors each arranged to sense a load parameter indicative of the load of the respective positioning drive, and a load controller connected to the plurality of sensors. The load controller is arranged to determine a load of a respective positioning drive based on the sensed load parameter, to compare said load with an expected load value, and to output a signal indicative of a failure of the respective positioning drive in response to the load being smaller than the expected load value.
+[Your response]
+[1] Power Generation: Mentions components and systems used to generate electrity.
+[1] Electricity Monitoring: Comprises sensing technology and solutions for the monitoring of electrical circuits.
+
+Example 5: Returning "None".
+[Abstract]
+A method of predicting vehicle engine torque using an artificial neural network is provided. A data-based artificial neural network model is applied to more accurately calculate torque and reduce development costs for calibration and logics.
+[Your response]
+None
+
+Example 6: Adding "[1] Electrical Devices" and "[1] Electrical Circuit Components".
+[Abstract]
+A double-stage inverter apparatus for energy conversion systems (FIG. 1) and control method thereof, adapted to manage the operations of the on-board booster module so as to optimize the overall electrical efficiency of the system. Furthermore, the method according to the present invention allows the operations of said double-stage inverter to be managed when there is only one input channel, when there are multiple input channels called to operate both in parallel and also when there are multiple input channels called to operate independently from each other.
+[Your response]
+[1] Electrical Devices: Describes a complex electrical device.
+[1] Electrical Circuit Components: Mentions components used for the design of electrical circuits.
+
+
+[Instructions]
+Step 1: Determine if the abstract is about electrical components. If so, extract them.
+- The components must reflect a SINGLE component instead of a combination of components.
+- The new components must be described by a level number, a short general label, and a type description: "[<level>] <label> <description>". 
+- The components must be broad enough to accommodate future sub-components. 
+Step 2: Perform ONE of the following operations:
+- If there are already duplicates of the components in the hierarchy, output those components. 
+- Otherwise, output the identified electrical components.
+- If the document contains no topic that fits in with the previously generated topics, return "None". 
+
+
+[Abstract]
+{Document}
+
+[Your response]

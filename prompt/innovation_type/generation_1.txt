@@ -1,4 +1,4 @@
-You will receive a document and a set of innovation types found in previous documents. Your task is to identify the nature of the innovation presented in the current document. If any innovation types are missing from the provided set, please add them. Otherwise, output the existing innovation types.
+You will receive a document and a set of innovation types found in previous documents. Your task is to identify the type of the innovation presented in the current document. If any innovation types are missing from the provided set, please add them. Otherwise, output the existing innovation types.
 
 [Innovation Types]
 {Topics}
@@ -8,28 +8,28 @@ Example 1: Adding "[1] Tools".
 [Document]
 A mobile steel grit dryer used to dry steel grit may be configured with a number of different functions and features to assist a contractor in performing steel or other structure maintenance when using steel grit in resurfacing the structure. The steel grit dryer may be configured with a heat process vacuum bypass so that an off-board vacuum, such as a vacuum on a grit recycling system, may be utilized as opposed to having an onboard vacuum. The dryer may include multiple modes so that an operator may use different modes for different environmental conditions. An exoframe may provide for better durability when being transported to different jobsites. A variety of automation and safety features may also be provided to simplify and improve safety for operators.
 [Your response]
-[1] Tools: Metions a novel or improved tool.
+[1] Tools: Introduces a novel or improved tool.
 Example 2: Adding "[1] Biological Processes".
 [Document]
 Provided herein are methods for using RNAi molecules targeting a proteasome beta 5 (PSMB5) gene for controlling Coleopteran insects, methods for producing RNAi molecules targeting PSMB5, and compositions comprising RNAi molecules targeting PSMB5.
 [Your response]
-[1] Biological Processes: Pertains to the discovery or development of biological processes for practical applications.
+[1] Biological Processes: Discovery or development of biological processes for practical applications.
 Example 3: Adding "[1] Materials".
 [Document]
 Capacitor comprising: a first porous semiconductor having an average pore size of between 20 nm and 200 nm and preferably between 40 nm and 100 nm, at least one second electric conductor, wherein the second electric conductor infiltrates the porous structure, and the materials involved are selected such that a potential barrier is formed between the first porous semiconductor and the second conductor, without applying an external voltage, as a result of the diffusion of charge carriers, which is preferably more than 0.5 V, more preferably more than 0.7 V, more preferably more than 1 V, and more preferably still more than 1.4 V, wherein a dielectric layer having a thickness of 1 nm to 10 nm is preferably arranged between the first porous semiconductor and the second electric conductor.
 [Your response]
-[1] Materials: Introduces a novel or improved material with desireable properties.
+[1] Materials: Describes a new material with desireable properties.
 
 [Instructions]
-Step 1: Determine innovation types mentioned in the document. 
-- The type(s) must be as GENERALIZABLE as possible. They must not be document-specific.
-- The type(s) must reflect a SINGLE type instead of a combination of types.
-- The new type(s) must have a level number, a short general label, and a type description. 
+Step 1: Determine the type of innovation mentioned in the document. 
+- The types must be as GENERALIZABLE as possible. They must not be document-specific.
+- The types must reflect a SINGLE type instead of a combination of types.
+- The new types must have a level number, a short general label, and a type description. 
 - The types must be broad enough to accommodate future subtypes. 
 Step 2: Perform ONE of the following operations:
 - If there are already duplicates of the innovation types in the hierarchy, output those types and do not add any new types. 
 - If the document does not contain clear innovation types, return "None".
-- Otherwise, add your type. Stop here and output the added type(s). DO NOT add any additional levels. The types must follow the following pattern: "[<level>] <label> <description>".
+- Otherwise, add your type. Stop here and output the added types. DO NOT add any additional levels. The types must follow the following pattern: "[<level>] <label> <description>".
 
 [Document]
 {Document}
