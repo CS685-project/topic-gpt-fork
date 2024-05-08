@@ -1,0 +1,52 @@
+You will receive a patent abstract and a set of electrical components found in previous patent abstracts. Your task is to identify patented electrical components. If any patented electrical components are missing from the provided set, please add them. If the presented components are already in the provided set OR if there are no patented electrical components in the abstract, output the given electrical components.
+
+[Electrical Components]
+{Topics}
+
+[Examples]
+Example 1: Adding "[1] Diodes".
+[Abstract]
+Light detecting structures comprising germanium (Ge) photodiodes formed in a device layer of a germanium on-insulator (GeOI) wafer, focal planes arrays based on such Ge photodiodes (PDs) and methods for fabricating such Ge photodiodes and focal plane arrays (FPAs). An FPA includes a Ge-on-GeOI PD array bonded to a ROIC where the handle layer of the GeOI layer is removed. The GeOI insulator properties and thickness can be designed to improve light coupling into the PDs.
+[Your response]
+[1] Diodes: Mentions diodes as a central component of the patentable innovation.
+Example 2: Adding "[1] Electrolytes".
+[Abstract]
+Provided is a solid electrolyte laminate comprising a solid electrolyte layer having proton conductivity and a cathode electrode layer laminated on one side of the solid electrolyte layer and made of lanthanum strontium cobalt oxide (LSC). Also provided is a method for manufacturing the solid electrolyte. This solid electrolyte laminate can further comprise an anode electrode layer made of nickel-yttrium doped barium zirconate (Ni\u2014BZY). This solid electrolyte laminate is suitable for a fuel cell operating in an intermediate temperature range less than or equal to 600\u00b0 C.
+[Your response]
+[1] Electrolytes: Pertains to new electrolyte materials.
+Example 3: Adding "[1] Inverters".
+[Abstract]
+A double-stage inverter apparatus for energy conversion systems (FIG. 1) and control method thereof, adapted to manage the operations of the on-board booster module so as to optimize the overall electrical efficiency of the system. Furthermore, the method according to the present invention allows the operations of said double-stage inverter to be managed when there is only one input channel, when there are multiple input channels called to operate both in parallel and also when there are multiple input channels called to operate independently from each other.
+[Your response]
+[1] Inverters: The patent comprises a power inverter component.
+Example 4: Returning "[1] Unrelated".
+[Abstract]
+A gear lubricant line device includes a base body configured to attach to an end surface of a gear and a mount including a holder for a lubricant applicator. The mount is slidably mounted on the base body and releasably fixable to the base body to hold the lubricant applicator in a desired position relative to a tooth base of the gear.
+[Your response]
+[1] Unrelated: Does not mention or focus on innovative electrical components.
+Example 5: Returning "[1] Unrelated".
+[Abstract]
+A nucleation device for changing a phase of a heat storage material from a liquid state to a solid state includes a plurality of substrates in close contact with each other in the heat storage material, and a pressing part that presses a portion of the plurality of substrates so as to elicit a change in the state of close contact of the plurality of substrates.
+[Your response]
+[1] Unrelated: Does not mention or focus on innovative electrical components.
+Example 6: Returning "[1] Unrelated".
+[Abstract]
+A control system (300) allows recognized standard premise electrical outlets, for example NEMA, CEE and BS, among others to be remotely monitored and\/or controlled, for example, to intelligently execute blackouts or brownouts or to otherwise remotely control electrical devices. The system (300) includes a number of smart receptacles (302) that communicate with a local controller (304), e.g., via power lines using the TCP\/IP protocol. The local controller (304), in turn, communicates with a remote controller (308) via the internet.
+[Your response]
+[1] Unrelated: Does not mention or focus on innovative electrical components.
+
+[Instructions]
+Step 1: Determine if there is a patented electrical component described in the abstract. 
+- The component must be part of an electrical circuit or a larger electrical system.
+- The components must reflect a SINGLE component instead of a combination of components.
+- The new components must be described by a level number, a short general label, and a type description. 
+- The components must be broad enough to accommodate future sub-components. 
+Step 2: Perform ONE of the following operations:
+- If there are already duplicates of the components in the hierarchy, output those components and do not add any new components. 
+- If the patent abstract does not mention electrical components as part of the patented innovation, return the default output "[1] Unrelated".
+- Otherwise, output the newly identified electrical components. DO NOT add any additional levels. The components must follow the following pattern: "[<level>] <label> <description>".
+
+[Abstract]
+{Document}
+
+[Your response]
