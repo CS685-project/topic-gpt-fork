@@ -1,35 +1,60 @@
-You will receive a document and a set of innovation types found in previous documents. Your task is to identify the type of the innovation presented in the current document. If any innovation types are missing from the provided set, please add them. Otherwise, output the existing innovation types.
+You will receive a document and a set of concepts found in previous documents. Your task is to identify the main concept presented in the current document. If any concepts are missing from the provided set, please add them. Otherwise, output the existing concepts.
 
-[Innovation Types]
+[Concepts]
 {Topics}
+
 
 [Examples]
 Example 1: Adding "[1] Tools".
 [Document]
 A mobile steel grit dryer used to dry steel grit may be configured with a number of different functions and features to assist a contractor in performing steel or other structure maintenance when using steel grit in resurfacing the structure. The steel grit dryer may be configured with a heat process vacuum bypass so that an off-board vacuum, such as a vacuum on a grit recycling system, may be utilized as opposed to having an onboard vacuum. The dryer may include multiple modes so that an operator may use different modes for different environmental conditions. An exoframe may provide for better durability when being transported to different jobsites. A variety of automation and safety features may also be provided to simplify and improve safety for operators.
-[Your response]
-[1] Tools: Introduces a novel or improved tool.
+[Response]
+[1] Tools: Mentions the structure, properties, or application of a mechanical tool.
+
 Example 2: Adding "[1] Biological Processes".
 [Document]
 Provided herein are methods for using RNAi molecules targeting a proteasome beta 5 (PSMB5) gene for controlling Coleopteran insects, methods for producing RNAi molecules targeting PSMB5, and compositions comprising RNAi molecules targeting PSMB5.
-[Your response]
-[1] Biological Processes: Discovery or development of biological processes for practical applications.
+[Response]
+[1] Biological Processes: Pertains to applications that exploit biological processes.
+
 Example 3: Adding "[1] Materials".
 [Document]
 Capacitor comprising: a first porous semiconductor having an average pore size of between 20 nm and 200 nm and preferably between 40 nm and 100 nm, at least one second electric conductor, wherein the second electric conductor infiltrates the porous structure, and the materials involved are selected such that a potential barrier is formed between the first porous semiconductor and the second conductor, without applying an external voltage, as a result of the diffusion of charge carriers, which is preferably more than 0.5 V, more preferably more than 0.7 V, more preferably more than 1 V, and more preferably still more than 1.4 V, wherein a dielectric layer having a thickness of 1 nm to 10 nm is preferably arranged between the first porous semiconductor and the second electric conductor.
+[Response]
+[1] Materials: Describes the invention or innovative application of a specific material.
+
+Example 4: Adding "[1] Manufacturing", "[1] Electrical Components", and "[1] Materials".
+[Abstract]
+Light detecting structures comprising germanium (Ge) photodiodes formed in a device layer of a germanium on-insulator (GeOI) wafer, focal planes arrays based on such Ge photodiodes (PDs) and methods for fabricating such Ge photodiodes and focal plane arrays (FPAs). An FPA includes a Ge-on-GeOI PD array bonded to a ROIC where the handle layer of the GeOI layer is removed. The GeOI insulator properties and thickness can be designed to improve light coupling into the PDs.
 [Your response]
-[1] Materials: Describes a new material with desireable properties.
+[1] Electrical Components: Introduces a component used in electrical circuits.
+[1] Materials: Describes the invention or innovative application of a specific material.
+[1] Manufacturing: Mentions manufacturing processes.
+
+Example 5: Adding "[1] Tools".
+[Abstract]
+A gear lubricant line device includes a base body configured to attach to an end surface of a gear and a mount including a holder for a lubricant applicator. The mount is slidably mounted on the base body and releasably fixable to the base body to hold the lubricant applicator in a desired position relative to a tooth base of the gear.
+[Your response]
+[1] Tools: Mentions the structure, properties, or application of a mechanical tool.
+
+Example 6: Adding "[1] Algorithms".
+[Abstract]
+A method of predicting vehicle engine torque using an artificial neural network is provided. A data-based artificial neural network model is applied to more accurately calculate torque and reduce development costs for calibration and logics.
+[Your response]
+[1] Algorithms: Mentions the invention or application of an innovative algorithm.
+
 
 [Instructions]
-Step 1: Determine the type of innovation mentioned in the document. 
-- The types must be as GENERALIZABLE as possible. They must not be document-specific.
-- The types must reflect a SINGLE type instead of a combination of types.
-- The new types must have a level number, a short general label, and a type description. 
-- The types must be broad enough to accommodate future subtypes. 
+Step 1: Determine the main concepts mentioned in the document. 
+- The concepts must be as GENERALIZABLE as possible. They must not be document-specific.
+- The concepts must reflect a SINGLE concept instead of a combination of concepts.
+- The new concepts must have a level number, a short general label, and a description. 
+- The concepts must be broad enough to accommodate future sub-concepts. 
 Step 2: Perform ONE of the following operations:
-- If there are already duplicates of the innovation types in the hierarchy, output those types and do not add any new types. 
-- If the document does not contain clear innovation types, return "None".
-- Otherwise, add your type. Stop here and output the added types. DO NOT add any additional levels. The types must follow the following pattern: "[<level>] <label> <description>".
+- If there are already duplicates of the main concepts in the hierarchy, output those concepts and do not add any new concepts. 
+- If the document does not contain clear concepts, return "None".
+- Otherwise, add your concepts. Stop here and output the added concepts. DO NOT add any additional levels. The concepts must follow the following pattern: "[<level>] <label> <description>".
+
 
 [Document]
 {Document}
