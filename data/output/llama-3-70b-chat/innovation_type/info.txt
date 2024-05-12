@@ -1,7 +1,5 @@
-Altered prompt for new objective: Identify types of innovation from the documents.
-Replaced examples, changed language of prompt.
-No seed topics.
+Identify core concept of the innovation from the documents.
 
 Result: 
-- 10 topics for 50 docs, worked relatively well. 
-- More examples probably helpful still.
+- 10 topics for 1000 samples (early stop after ~300 due to topic_drought=200)
+- Very even distribution, might have hit the spot honestly
