@@ -339,6 +339,7 @@ def main():
 
         # Updating generation.jsonl with new topics ----
         updated_responses = []
+        topics_new={}
         df = pd.read_json(args.generation_file, lines=True)
         if args.refined_again == True:
             responses = df["refined_responses"].tolist()
@@ -353,10 +354,21 @@ def main():
                         s = s.replace(key, value)
                         if args.verbose:
                             print(f"Replacing {key} with {value}")
+                            
+                if (len(s.split(':')[0])==0) or (s.split(':')[0][0]!='['): continue
+                if (s.split(':')[0]) not in topics_new.keys():
+                    desc=s.split(':')[1] if len(s.split(':')) > 1 else 'null'
+                    topics_new[s.split(':')[0]]= {'count':1, 'desc': desc}
+                else:
+                    topics_new[s.split(':')[0]]['count']=topics_new[s.split(':')[0]]['count']+1
                 sub_list.append(s)
             updated_responses.append("\n".join(sub_list))
         df["refined_responses"] = updated_responses
         df.to_json(args.updated_file, lines=True, orient="records")
+        with open(args.out_file, "w") as f:
+            for index,value in topics_new.items():
+                print(index,'(Count: '+str(value['count'])+'):',value['desc'].strip(),file=f)
+
     else:
         print("No updated/merged topics!")
 
