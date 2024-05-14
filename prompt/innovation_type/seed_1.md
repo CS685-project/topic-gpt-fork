@@ -1,1 +1,3 @@
-[1] Electricity Generation
+Industrial Design
+Mechanical Components
+Electrical Systems
