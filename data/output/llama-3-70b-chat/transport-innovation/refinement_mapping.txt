@@ -1,8 +1,0 @@
-[1] Fuel combustion: -> [1] Vehicle Performance Optimization:
-[1] Optimizing energy efficiency: -> [1] Vehicle Performance Optimization:
-[1] Aeronautics: -> [1] Vehicle Performance Optimization:
-[1] Information technologies: -> [1] Vehicle Performance Optimization:
-[1] Charging of electric vehicles: -> [1] Electric Vehicle Technology:
-[1] Energy storage systems: -> [1] Electric Vehicle Technology:
-[1] Energy system optimization: -> [1] Electric Vehicle Technology:
-[1] Vehicle Performance Optimization: -> [1] Electric Vehicle Technology:
