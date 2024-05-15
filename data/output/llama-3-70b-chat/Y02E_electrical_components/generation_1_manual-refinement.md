@@ -66,11 +66,7 @@
 [1] Energy Consumption (Count: 2): Pertains to the measurement and analysis of electricity usage.
 [1] Compressed Air Systems (Count: 3): Describes systems that store energy through compressed air.
 [1] Power Controllers (Count: 4): Pertains to devices that control the flow of electrical power.
-[1] Panic Buttons (Count: 1): Relates to a device that triggers an alarm or alert in emergency situations.
-[1] GPS Systems (Count: 1): Pertains to a system that provides location information using satellite signals.
-[1] Springs (Count: 2): Describes a type of mechanical component used for energy storage or damping.
 [1] Electric Motors (Count: 4): Describes an electric motor used for powering a system or device.
-[1] Cranes (Count: 1): Mentions a crane used for lifting and moving heavy loads.
 [1] Control Systems (Count: 31): Pertains to systems that monitor and control the operation of electrical systems.
 [1] Magnetic Materials (Count: 6): Relates to materials that exhibit magnetic properties.
 [1] Thermal Management Systems (Count: 9): Pertains to systems that manage heat generation and dissipation.
@@ -238,7 +234,6 @@
 [1] Clamps (Count: 1): Pertains to devices that hold or secure objects in place.
 [1] Carbon Nanotubes (Count: 5): Discusses a type of material used in energy storage devices.
 [1] Graphene Nanoplatelets (Count: 1): Discusses a type of material used in energy storage devices.
-[1] Mounting Systems (Count: 1): Pertains to devices or structures that secure or hold components in place.
 [1] Electrical Probes (Count: 1): Relates to devices used to measure electrical properties or fields.
 [1] Power Generating Units (Count: 1): Relates to components that convert the energy of displaced water into electrical power.
 [1] Photovoltaic Systems (Count: 1): Relates to systems that convert sunlight into electrical energy.
@@ -284,14 +279,8 @@
 [1] Ionic Conductors (Count: 1): Pertains to materials that conduct ions.
 [1] Electric Arc Furnaces (Count: 1): Relates to a type of furnace that uses an electric arc to melt and process metals.
 [1] Microgrids (Count: 1): Pertains to a small-scale local energy system that can operate in isolation from the main grid.
-[1] Smart Switches (Count: 1): Relates to intelligent electrical switches that can be controlled and monitored remotely.
 [1] Transmission Apparatus (Count: 1): Describes devices that transmit information signals wirelessly.
-[1] Audio Systems (Count: 1): Relates to systems that produce or process audio signals.
-[1] Inspectors (Count: 1): Relates to devices or methods for testing or evaluating electrical components.
 [1] Electrical Cells (Count: 1): Pertains to individual components that store electrical energy.
-[1] Fastening Systems (Count: 1): Describes systems used to hold or secure components together.
-[1] Tensioning Elements (Count: 1): Describes a type of mechanical component used in fuel cell stacks.
-[1] Mounting Shafts (Count: 1): Relates to mechanical components used in fuel cell stacks.
 [1] Polymer Electrolyte Membranes (Count: 1): Describes a type of electrolyte material or membrane.
 [1] Smart Meters (Count: 1): Relates to advanced metering infrastructure for electricity consumption measurement and management.
 [1] Electrical Testing (Count: 2): Relates to methods and equipment for testing electrical properties of devices or systems.
