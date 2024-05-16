@@ -23,9 +23,9 @@ Amends the Harmonized Tariff Schedule of the United States to suspend temporaril
 - Topic labels must be present in the provided topic hierarchy. You MUST NOT make up new topics. 
 - The quote must be taken from the document. You MUST NOT make up quotes. 
 - The topics must be returned in the correct format: "[<level>] <label>: <reasoning>".
-- If the document does not match any of the provided topics, return "None". 
+- If the document does not match any of the provided topics, please return "None". 
 
-Make sure that your assigned topics exist in the hierarchy!
+Make sure that your assigned topics exist in the hierarchy, otherwise return "None"!
 
 [Document]
 {Document}
