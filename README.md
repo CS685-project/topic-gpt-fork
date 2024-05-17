@@ -24,5 +24,5 @@ We ran experiments on 3 objectives: `innovation_type`, `transport_innovation` an
 The files in `./data/output/[model_name]/[generation_objective]` are:
 - `generation_1.md` contains the list of topics generated after the topic generation step
 - `generation_1_manual_refinement.md` contains the list of topics after manual refinement
-- `assignment_[model_name]` contains the output from assignment step using the respective models
+- `assignment_[model_name].jsonl` contains the output from assignment step using the respective models
 
