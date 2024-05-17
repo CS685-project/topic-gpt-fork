@@ -1,5 +1,0 @@
-Same as innovation_type_robust, but with example topics added as seed topics.
-
-Result: 
-- Output very biased toward seed/example topics
-- We probably should not do this!
