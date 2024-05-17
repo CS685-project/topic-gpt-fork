@@ -1,0 +1,46 @@
+You will receive a document and a set of innovation types found in previous documents. Your task is to identify the nature of the innovation presented in the current document. If any innovation types are missing from the provided set, please add them. Otherwise, output the existing innovation types.
+
+[Innovation Types]
+{Topics}
+
+[Examples]
+Example: Adding "[1] Energy systems".
+[Document]
+A vehicle includes a pair of power converters. The vehicle includes a socket having an array of power terminals arranged to accept outlets of different power terminal configurations to interconnect the pair therewith. The vehicle includes a panel having an outlet engaged with the socket. The panel includes a controller configured to communicate an electrical rating of the outlet via the socket to define a switching scheme for the pair. The communication is responsive to detecting panel and socket engagement.
+[Your response]
+[1] Energy systems: Mentions component relating to power/electricity/charging.
+
+Example: Adding "[1] Temperature Regulation".
+[Document]
+The invention relates to a device for the thermal regulation of a motor vehicle battery pack (1) comprising at least one battery (5) contained in a housing (3), the thermal regulation device comprising: at least one heat exchanger (9) in contact with the battery (5), at least one elastic element (15) arranged in the bottom (14) of the housing (3) so as to hold the heat exchanger (9) against the battery (5). An insulator (13) is interposed between the elastic element (15) and the heat exchanger (9).
+[Your response]
+[1] Temperature Regulation: Mentions device for regulation of temperature.
+
+Example: Duplicate "[1] Temperature Regulation".
+[Document]
+Methods and systems are provided for operating a driveline of a hybrid vehicle during conditions when a temperature of a motor/generator is increasing. In one example, a method is provided that adjusts engine speed as a function of motor/generator temperature while maintaining engine power output when driver demand wheel power is constant.
+[Your response]
+[1] Temperature Regulation: Mentions method for regulation of temperature.
+
+Example: Adding "[1] Strength Enhancement".
+[Document]
+A chassis component for a motor vehicle is disclosed. The chassis component (1) is manufactured at least partially from a multi-layer steel sheet (10, 20, 30). The multi-layer steel sheet (10, 20, 30) includes at least three steel layers, including two outer steel layers (11, 12; 21, 22; 31, 32) and one inner steel layer (13, 23, 33). At least one outer steel layer (11, 12; 21, 22; 31, 32) of the multi-layer steel sheet (10, 20, 30) has a tensile strength of at least 1200 MPa. A method for producing a chassis component for a motor vehicle, in particular a wheel (1) or a part thereof, is also disclosed.
+[Your response]
+[1] Strength Enhancement: Mentions component that improves strength.
+
+
+[Instructions]
+Step 1: Determine innovation types mentioned in the document. 
+- The type(s) must be as GENERALIZABLE as possible. They must not be document-specific.
+- The type(s) must reflect a SINGLE type instead of a combination of types.
+- The new type(s) must have a level number, a short general label, and a type description. 
+- The types must be broad enough to accommodate future subtypes. 
+Step 2: Perform ONE of the following operations:
+- If there are already duplicates of the innovation types in the hierarchy, output those types and do not add any new types. 
+- If the document does not contain clear innovation types, return "None".
+- Otherwise, add your type. Stop here and output the added type(s). DO NOT add any additional levels. The types must follow the following pattern: "[<level>] <label> <description>".
+
+[Document]
+{Document}
+
+[Your response]

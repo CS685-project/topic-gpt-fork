@@ -339,24 +339,42 @@ def main():
 
         # Updating generation.jsonl with new topics ----
         updated_responses = []
+        topics_new={}
         df = pd.read_json(args.generation_file, lines=True)
         if args.refined_again == True:
             responses = df["refined_responses"].tolist()
         else:
             responses = df["responses"].tolist()
+        topic_format = regex.compile("^\[(\d+)\] ([\w\s]+):(.+)")
         for response in responses:
             splitted = response.split("\n")
             sub_list = []
             for s in splitted:
-                for key, value in mapping.items():
-                    if key != value and s.startswith(key):
-                        s = s.replace(key, value)
-                        if args.verbose:
-                            print(f"Replacing {key} with {value}")
-                sub_list.append(s)
+                if regex.match(topic_format, s):
+                    groups = regex.match(topic_format, s)
+                    lvl, name, desc = (
+                        int(groups[1]),
+                        groups[2].strip(),
+                        groups[3].strip(),
+                    )
+                    for key, value in mapping.items():
+                        if key != value and s.startswith(key):
+                            s = s.replace(key, value)
+                            if args.verbose:
+                                print(f"Replacing {key} with {value}")
+                                
+                    if (name) not in topics_new.keys():
+                        topics_new[name]= {'count':1, 'desc': desc}
+                    else:
+                        topics_new[name]['count']=topics_new[name]['count']+1
+                    sub_list.append(s)
             updated_responses.append("\n".join(sub_list))
         df["refined_responses"] = updated_responses
         df.to_json(args.updated_file, lines=True, orient="records")
+        with open(args.out_file, "w") as f:
+            for index,value in topics_new.items():
+                print(index,'(Count: '+str(value['count'])+'):',value['desc'].strip(),file=f)
+
     else:
         print("No updated/merged topics!")
 

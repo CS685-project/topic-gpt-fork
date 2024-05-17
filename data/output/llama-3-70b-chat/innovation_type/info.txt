@@ -1,0 +1,5 @@
+Identify core concept of the innovation from the documents.
+
+Result: 
+- 10 topics for 1000 samples (early stop after ~300 due to topic_drought=200)
+- Very even distribution, might have hit the spot honestly
